@@ -325,4 +325,4 @@ t = datetime.datetime.now().time()
 print(t)
 
 wb.save('allkabu1.xlsx')
-winsound.Beep(500,50)  #ビープ音（800Hzの音を1000msec流す）
+winsound.Beep(500,50)  #ビープ音（500Hzの音を50msec流す）
