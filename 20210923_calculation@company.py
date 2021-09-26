@@ -46,11 +46,20 @@ for l in stock_list:
 #現在株価との差=株価(D)-みんかぶ目標株価(EU)
         sheet01.cell(row=j,column=152).value = str('=D')+str(j)+str('-EU')+str(j)
 #移動平均線数値　5日＝当日〜4日前の株価総和/5
-        sheet01.cell(row=j,column=201).value = str('=SUM(D')+str(j-4)+str(':D')+str(j)+str(')/5')
+        if j < 6 :
+                pass
+        else:
+                sheet01.cell(row=j,column=201).value = str('=SUM(D')+str(j-5)+str(':D')+str(j)+str(')/5')
 #移動平均線数値　25日＝当日〜24日前の株価総和/25
-        sheet01.cell(row=j,column=202).value = str('=SUM(D')+str(j-24)+str(':D')+str(j)+str(')/25')
+        if j < 26 :
+                pass
+        else:
+                sheet01.cell(row=j,column=202).value = str('=SUM(D')+str(j-25)+str(':D')+str(j)+str(')/25')
 #移動平均線数値　75日＝当日〜74日前の株価総和/75
-        sheet01.cell(row=j,column=203).value = str('=SUM(D')+str(j-74)+str(':D')+str(j)+str(')/75')
+        if j < 76 :
+                pass
+        else:
+                sheet01.cell(row=j,column=203).value = str('=SUM(D')+str(j-75)+str(':D')+str(j)+str(')/75')
 #移動平均乖離率    5日＝（株価ー移動平均5日）/移動平均5日
         sheet01.cell(row=j,column=204).value = str('=(D')+str(j)+str('-GS')+str(j)+str(')/GS')+str(j)
 #移動平均乖離率    25日＝（株価ー移動平均25日）/移動平均25日
@@ -58,9 +67,9 @@ for l in stock_list:
 #移動平均乖離率    75日＝（株価ー移動平均75日）/移動平均75日
         sheet01.cell(row=j,column=206).value = str('=(D')+str(j)+str('-GU')+str(j)+str(')/GU')+str(j)
 #標準化出来高＝standardize（当日の値，平均値（average(対象列)），標準偏差(stdevp(対象列)）
-        sheet01.cell(row=j,column=501).value = str('=STANDARDIZE(K')+str(j)+str(',AVERAGE(K:K),STDEV.P(K:K))')+str(j)
+        sheet01.cell(row=j,column=501).value = str('=STANDARDIZE(K')+str(j)+str(',AVERAGE(K:K),STDEV.P(K:K))')
 #標準化約定回数＝standardize（当日の値，平均値（average(対象列)），標準偏差(stdevp(対象列)）
-        sheet01.cell(row=j,column=502).value = str('=STANDARDIZE(H')+str(j)+str(',AVERAGE(H:H),STDEV.P(H:H))')+str(j)
+        sheet01.cell(row=j,column=502).value = str('=STANDARDIZE(H')+str(j)+str(',AVERAGE(H:H),STDEV.P(H:H))')
 #標準化回転日数＝standardize（当日の値，平均値（average(対象列)），標準偏差(stdevp(対象列)）
         sheet01.cell(row=j,column=503).value = str('=STANDARDIZE(DN')+str(j)+str(',AVERAGE(DN:DN),STDEV.P(DN:DN))')
 #標準化移動平均乖離率5日＝standardize（当日の値，平均値（average(対象列)），標準偏差(stdevp(対象列)）

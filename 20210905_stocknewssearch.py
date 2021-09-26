@@ -51,7 +51,7 @@ print(t)
 #パラメータ名の記載
 sheet02.cell(row=1, column=1).value = "日付"
 sheet02.cell(row=1, column=2).value = "時間"
-sheet02.cell(row=1, column=3).value = "証券番号"
+sheet02.cell(row=1, column=3).value = "証券コード"
 sheet02.cell(row=1, column=4).value = "名称"
 sheet02.cell(row=1, column=5).value = "株価"
 sheet02.cell(row=1, column=6).value = "株価"
@@ -113,7 +113,7 @@ for j in range(2, sheet01.max_row + 1):
 print(t)
 t = datetime.datetime.now().time()
 print(t)
-path = "C:\\Users\\touko\\OneDrive\\株価分析\\mail\\"
+path = "C:/Users/touko/OneDrive/株価分析/ダウンロードデータ/07.IR情報入力処理/"
 wb_write_lowpricestock.save(path+str(d_today)+"newsallkabu.xlsx")
 winsound.Beep(1000,1000)
 #全ての証券コードが完了したら、onedriveにexcel保存
