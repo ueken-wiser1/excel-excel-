@@ -116,4 +116,4 @@ for i in range(2, lastrow):
 print(t)
 t = datetime.datetime.now().time()
 print(t)
-winsound.Beep(500,50)
+winsound.Beep(500,50)  #ビープ音（500Hzの音を50msec流す）
