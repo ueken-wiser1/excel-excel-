@@ -113,4 +113,4 @@ print(t)
 t = datetime.datetime.now().time()
 print(t)
 
-winsound.Beep(1000,1000)
+winsound.Beep(500,50)

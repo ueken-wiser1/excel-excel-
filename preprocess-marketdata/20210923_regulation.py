@@ -19,14 +19,6 @@ import numpy as np
 
 t = datetime.datetime.now().time()
 
-'''
-taisho_URL= 'https://www.jpx.co.jp/markets/equities/margin-reg/index.html'
-
-res = requests.get(taisho_URL)
-print(taisho_URL)
-res.raise_for_status()
-soup = bs4.BeautifulSoup(res.text, 'html.parser')
-'''
 
 #対象：信用規制
 dir_data01 = "C:/Users/touko/OneDrive/株価分析/ダウンロードデータ/05.信用規制中銘柄/"
@@ -88,4 +80,4 @@ print(t)
 t = datetime.datetime.now().time()
 print(t)
 
-winsound.Beep(1000,1000)
+winsound.Beep(500,50)
