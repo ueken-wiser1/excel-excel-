@@ -1,0 +1,2 @@
+python 20210911_marketscraping.py
+pause
