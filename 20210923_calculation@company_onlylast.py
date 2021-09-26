@@ -100,4 +100,4 @@ t = datetime.datetime.now().time()
 print(t)
 
 
-winsound.Beep(1000,1000)  #ビープ音（800Hzの音を1000msec流す）
+winsound.Beep(500,50)  #ビープ音（800Hzの音を1000msec流す）
