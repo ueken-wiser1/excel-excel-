@@ -324,5 +324,5 @@ print(t)
 t = datetime.datetime.now().time()
 print(t)
 
-wb.save('allkabu1.xlsx')
+wb.save('C:/Users/touko/OneDrive/株価分析/excel/株式データ/スクレイピング生データ/allkabu1.xlsx')
 winsound.Beep(500,50)  #ビープ音（500Hzの音を50msec流す）
