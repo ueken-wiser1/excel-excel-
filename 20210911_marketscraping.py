@@ -134,7 +134,7 @@ for j in range(2, sheet.max_row + 1):
 
 #           決算日
     try:
-        stock_price = str(soup.select('dd')[7].get_text())
+        stock_price = str(soup.select('dd')[7])
     except IndexError as e:
         print('前日終値存在しない')
         write_column += 1
@@ -145,7 +145,7 @@ for j in range(2, sheet.max_row + 1):
 
 #           前日終値1
     try:
-        stock_price = str(soup.select('dd')[7].get_text())
+        stock_price = str(soup.select('dd')[7])
     except IndexError as e:
         print('前日終値存在しない')
         write_column += 1

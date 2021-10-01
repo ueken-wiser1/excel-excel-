@@ -1,6 +1,7 @@
 import os
 from re import L
 import openpyxl
+from openpyxl.reader.excel import load_workbook
 import requests
 import bs4
 import time
@@ -27,6 +28,7 @@ for l in stock_list:
 #    print(str(stockbook))
     sheet01 = stockbook.worksheets[0]
     lastrow = sheet01.max_row+1
+    print(l)
 #売買代金2=VWAP(T)*出来高(K)
     sheet01.cell(row=lastrow,column=25).value = str('=T')+str(lastrow)+str('*K')+str(lastrow)
 #信用売残前週比：(V)
@@ -44,11 +46,20 @@ for l in stock_list:
 #現在株価との差=株価(D)-みんかぶ目標株価(EU)
     sheet01.cell(row=lastrow,column=152).value = str('=D')+str(lastrow)+str('-EU')+str(lastrow)
 #移動平均線数値　5日＝当日〜4日前の株価総和/5
-    sheet01.cell(row=lastrow,column=201).value = str('=SUM(D')+str(lastrow-4)+str(':D')+str(lastrow)+str(')/5')
+    if lastrow < 6 :
+        pass
+    else:
+        sheet01.cell(row=lastrow,column=201).value = str('=SUM(D')+str(lastrow-5)+str(':D')+str(lastrow)+str(')/5')
 #移動平均線数値　25日＝当日〜24日前の株価総和/25
-    sheet01.cell(row=lastrow,column=202).value = str('=SUM(D')+str(lastrow-24)+str(':D')+str(lastrow)+str(')/25')
+    if lastrow < 26 :
+        pass
+    else:
+        sheet01.cell(row=lastrow,column=202).value = str('=SUM(D')+str(lastrow-25)+str(':D')+str(lastrow)+str(')/25')
 #移動平均線数値　75日＝当日〜74日前の株価総和/75
-    sheet01.cell(row=lastrow,column=203).value = str('=SUM(D')+str(lastrow-74)+str(':D')+str(lastrow)+str(')/75')
+    if lastrow < 76 :
+        pass
+    else:
+        sheet01.cell(row=lastrow,column=203).value = str('=SUM(D')+str(lastrow-75)+str(':D')+str(lastrow)+str(')/75')
 #移動平均乖離率    5日＝（株価ー移動平均5日）/移動平均5日
     sheet01.cell(row=lastrow,column=204).value = str('=(D')+str(lastrow)+str('-GS')+str(lastrow)+str(')/GS')+str(lastrow)
 #移動平均乖離率    25日＝（株価ー移動平均25日）/移動平均25日
@@ -56,9 +67,9 @@ for l in stock_list:
 #移動平均乖離率    75日＝（株価ー移動平均75日）/移動平均75日
     sheet01.cell(row=lastrow,column=206).value = str('=(D')+str(lastrow)+str('-GU')+str(lastrow)+str(')/GU')+str(lastrow)
 #標準化出来高＝standardize（当日の値，平均値（average(対象列)），標準偏差(stdevp(対象列)）
-    sheet01.cell(row=lastrow,column=501).value = str('=STANDARDIZE(K')+str(lastrow)+str(',AVERAGE(K:K),STDEV.P(K:K))')+str(lastrow)
+    sheet01.cell(row=lastrow,column=501).value = str('=STANDARDIZE(K')+str(lastrow)+str(',AVERAGE(K:K),STDEV.P(K:K))')
 #標準化約定回数＝standardize（当日の値，平均値（average(対象列)），標準偏差(stdevp(対象列)）
-    sheet01.cell(row=lastrow,column=502).value = str('=STANDARDIZE(H')+str(lastrow)+str(',AVERAGE(H:H),STDEV.P(H:H))')+str(lastrow)
+    sheet01.cell(row=lastrow,column=502).value = str('=STANDARDIZE(H')+str(lastrow)+str(',AVERAGE(H:H),STDEV.P(H:H))')
 #標準化回転日数＝standardize（当日の値，平均値（average(対象列)），標準偏差(stdevp(対象列)）
     sheet01.cell(row=lastrow,column=503).value = str('=STANDARDIZE(DN')+str(lastrow)+str(',AVERAGE(DN:DN),STDEV.P(DN:DN))')
 #標準化移動平均乖離率5日＝standardize（当日の値，平均値（average(対象列)），標準偏差(stdevp(対象列)）
@@ -95,6 +106,8 @@ for l in stock_list:
     sheet01.cell(row=lastrow,column=1000).value = str('=12*SG')+str(lastrow)+str('+15*SH')+str(lastrow)+str('+6*SX')+str(lastrow)+str('+3/SI')+str(lastrow)+str('+9*Slastrow')+str(lastrow)+str('+6*SM')+str(lastrow)+str('+10*CW')+str(lastrow)+str('+8*CX')+str(lastrow)+str('+4*SN')+str(lastrow)+str('+2/SO')+str(lastrow)+str('+4/SP')+str(lastrow)+str('+5*DB')+str(lastrow)+str('+3/SQ')+str(lastrow)+str('+2*SR')+str(lastrow)+str('+1/SS')+str(lastrow)
 
     stockbook.save(l)
+    stockbook.close()
+
 print(t)
 t = datetime.datetime.now().time()
 print(t)
