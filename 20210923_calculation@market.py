@@ -27,9 +27,9 @@ print(str(marketbook))
 
 
 sheet01 = marketbook.worksheets[0]
-lastrow_marketbook = sheet01.max_row + 1
+lastrow_marketbook = sheet01.max_row
 
-for j in range(2, lastrow_marketbook+1):
+for j in range(2, lastrow_marketbook):
 
 #売買代金2=VWAP(T)*出来高(K)
     sheet01.cell(row=j,column=25).value = str('=T')+str(j)+str('*K')+str(j)

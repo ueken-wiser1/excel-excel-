@@ -37,7 +37,7 @@ res.raise_for_status()
 soup = bs4.BeautifulSoup(res.content,'lxml')
 '''
 #対象：貸借取引銘柄別増担保金徴収措置一覧
-dir_data = "C:/Users/touko/OneDrive/株価分析/ダウンロードデータ/04.空売り価格規制トリガー抵触銘柄一覧/"
+dir_data = "C:/Users/touko/OneDrive/株価分析/excel/株式データ/ダウンロードデータ/03.空売り価格規制トリガー抵触銘柄一覧/"
 dir_market = "C:/Users/touko/OneDrive/株価分析/excel/株式データ/"
 #ダウンロードしたexcel(以下databook)を開く
 data_list = glob.glob(dir_data + '*.csv')

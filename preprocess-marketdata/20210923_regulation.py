@@ -21,8 +21,8 @@ t = datetime.datetime.now().time()
 
 
 #対象：信用規制
-dir_data01 = "C:/Users/touko/OneDrive/株価分析/ダウンロードデータ/05.信用規制中銘柄/"
-dir_data02 = "C:/Users/touko/OneDrive/株価分析/ダウンロードデータ/06.信用規制解除銘柄/"
+dir_data01 = "C:/Users/touko/OneDrive/株価分析/excel/株式データ/ダウンロードデータ/01.信用規制中銘柄/"
+dir_data02 = "C:/Users/touko/OneDrive/株価分析/excel/株式データ/ダウンロードデータ/02.信用規制解除銘柄/"
 dir_market = "C:/Users/touko/OneDrive/株価分析/excel/株式データ/"
 #ダウンロードしたexcel(以下databook)を開く
 data01_list = glob.glob(dir_data01 + '*.xlsx')

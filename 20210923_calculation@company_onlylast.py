@@ -27,7 +27,7 @@ for l in stock_list:
     stockbook = openpyxl.load_workbook(l)
 #    print(str(stockbook))
     sheet01 = stockbook.worksheets[0]
-    lastrow = sheet01.max_row+1
+    lastrow = sheet01.max_row
     print(l)
 #売買代金2=VWAP(T)*出来高(K)
     sheet01.cell(row=lastrow,column=25).value = str('=T')+str(lastrow)+str('*K')+str(lastrow)

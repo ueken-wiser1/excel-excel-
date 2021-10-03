@@ -113,7 +113,7 @@ for j in range(2, sheet01.max_row + 1):
 print(t)
 t = datetime.datetime.now().time()
 print(t)
-path = "C:/Users/touko/OneDrive/株価分析/ダウンロードデータ/07.IR情報入力処理/"
+path = "C:/Users/touko/OneDrive/株価分析/excel/株式データ/ダウンロードデータ/07.IR情報入力処理/"
 wb_write_lowpricestock.save(path+str(d_today)+"newsallkabu.xlsx")
 winsound.Beep(500,50)  #ビープ音（500Hzの音を50msec流す）
 #全ての証券コードが完了したら、onedriveにexcel保存

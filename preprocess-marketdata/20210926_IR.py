@@ -14,7 +14,7 @@ import winsound
 t = datetime.datetime.now().time()
 
 #対象：IR情報入力処理
-dir_data = "C:/Users/touko/OneDrive/株価分析/ダウンロードデータ/07.IR情報入力処理/"
+dir_data = "C:/Users/touko/OneDrive/株価分析/excel/株式データ/ダウンロードデータ/07.IR情報入力処理/"
 dir_market = "C:/Users/touko/OneDrive/株価分析/excel/株式データ/"
 #ダウンロードしたexcel(以下databook)を開く
 data_list = glob.glob(dir_data + '*.xlsx')
