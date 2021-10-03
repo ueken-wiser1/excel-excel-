@@ -184,7 +184,7 @@ for code_number in range(10):
     try:
         span_pick = str(soup.select('td')[47])
     except IndexError as e:
-        print('最新信用買残存在しない')
+#        print('最新信用買残存在しない')
         continue
     else:
         sheet.cell(row=row_number, column=write_column).value = span_pick
@@ -194,11 +194,12 @@ for code_number in range(10):
     try:
         span_pick = str(soup.select('td')[94])
     except IndexError as e:
-        print('1株配当存在しない')
+#        print('1株配当存在しない')
+        write_column += 1
         continue
     else:
         sheet.cell(row=row_number, column=write_column).value = span_pick
-    write_column += 1
+        write_column += 1
 
 #           決算タブに移動
 #    kabutan_URL_base_finance = 'http://kabutan.jp/stock/finance?code='
