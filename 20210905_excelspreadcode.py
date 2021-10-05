@@ -42,6 +42,10 @@ stock_list = glob.glob(dir02 + '*.xlsx')
 #print(file_list)
 #print(os.path.split(file_list[1]))
 #stock_list=glob.glob(dir01 + '/*.xlsx')
+
+#print (file_list)
+
+#sys.exit()
 '''
 name_list=[]
 for i in stock_list:
@@ -70,7 +74,8 @@ for l in file_list:
 #       検索結果はリスト形式。リストの一番目を開く形にする
 #                company_book = stock_code.find in stock_list
         book_search_list = glob.glob(dir02 + str(stock_code) + '*.xlsx')
-#                print(book_search_list)
+#        print(book_search_list)
+#        sys.exit()
         company_book = book_search_list[0]
         print(company_book)
         wb_company = openpyxl.load_workbook(company_book) #フォルダ-銘柄のexcelを開く

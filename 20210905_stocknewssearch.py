@@ -38,11 +38,11 @@ def is_include_listed_word(text, word_list):
 
 #処理
 #excel-当日の低位株リストを開く
-wb_ref_lowpricestock = openpyxl.load_workbook('stockcodelist02.xlsx')
+wb_ref_lowpricestock = openpyxl.load_workbook('C:/Users/touko/OneDrive/株価分析/excel/株式データ/スクレイピング生データ/stockcodelist_news.xlsx')
 wb_write_lowpricestock = openpyxl.Workbook()
 
 #参照excelのシートに記載された証券コードを読み込む
-sheet01 = wb_ref_lowpricestock.get_sheet_by_name('株式')
+sheet01 = wb_ref_lowpricestock.worksheets[0]
 sheet02 = wb_write_lowpricestock.active
 k = 2
 t = datetime.datetime.now().time()

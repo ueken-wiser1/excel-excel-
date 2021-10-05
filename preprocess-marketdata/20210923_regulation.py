@@ -44,7 +44,7 @@ sheet02 = databook02.worksheets[0]
 sheet03 = marketbook.worksheets[0]
 lastrow_databook01 = sheet01.max_row + 1
 lastrow_databook02 = sheet02.max_row + 1
-lastrow_marketbook = sheet03.max_row + 1
+lastrow_marketbook = sheet03.max_row
 
 #databook内の対象cell(code_databook)を指定する
 for i in range(2, lastrow_databook01+1):
@@ -52,7 +52,7 @@ for i in range(2, lastrow_databook01+1):
 #    treatment = str(sheet01.cell(row=i,column=5).value)
 
 #marketbook内をcode_databookで検索
-    for j in range(2, lastrow_marketbook+1):
+    for j in range(2, lastrow_marketbook):
 
 #code_databookでヒットした行の指定列にコピペ
         if code_databook in str(sheet03.cell(row=j, column=2).value):
@@ -66,7 +66,7 @@ for i in range(2, lastrow_databook02+1):
 #    treatment = str(sheet01.cell(row=i,column=5).value)
 
 #marketbook内をcode_databookで検索
-    for j in range(2, lastrow_marketbook+1):
+    for j in range(2, lastrow_marketbook):
 
 #code_databookでヒットした行の指定列にコピペ
         if code_databook in str(sheet03.cell(row=j, column=2).value):
