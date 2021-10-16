@@ -32,13 +32,13 @@ lastrow_marketbook = sheet01.max_row
 for j in range(2, lastrow_marketbook):
 
 #売買代金2=VWAP(T)*出来高(K)
-    sheet01.cell(row=j,column=25).value = str('=T')+str(j)+str('*K')+str(j)
+    sheet01.cell(row=j,column=25).value = sheet01.cell(row=j,column=20).value * sheet01.cell(row=j,column=11).value
 #平均約定金額平均約定金額=出来高(K)/約定回数(H)*VWAP(T)
-    sheet01.cell(row=j,column=33).value = str('=K')+str(j)+str('/H')+str(j)+str('*T')+str(j)
+    sheet01.cell(row=j,column=33).value = sheet01.cell(row=j,column=11).value / sheet01.cell(row=j,column=8).value / sheet01.cell(row=j,column=20).value
 #回転日数=((融資残(DI)+貸株残(DL))*2)/(融資新規(DG)+融資返済(DH)+貸株新規(DJ)+貸株返済(DK)
-    sheet01.cell(row=j,column=118).value = str('=(DI')+str(j)+str('+DL')+str(j)+str(')*2/(DG')+str(j)+str('+DH')+str(j)+str('+DJ')+str(j)+str('+DK')+str(j)+str(')')
+    sheet01.cell(row=j,column=118).value = (sheet01.cell(row=j,column=113).value + sheet01.cell(row=j,column=116).value)*2/(sheet01.cell(row=j,column=111).value + sheet01.cell(row=j,column=112).value + sheet01.cell(row=j,column=114).value + sheet01.cell(row=j,column=115).value)
 #現在株価との差=株価(D)-みんかぶ目標株価(EU)
-    sheet01.cell(row=j,column=152).value = str('=D')+str(j)+str('-EU')+str(j)
+    sheet01.cell(row=j,column=152).value = sheet01.cell(row=j,column=4).value - sheet01.cell(row=j,column=151).value
 
 print(t)
 t = datetime.datetime.now().time()

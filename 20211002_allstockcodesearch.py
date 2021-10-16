@@ -297,6 +297,19 @@ for code_number in range(10):
         
         sheet.cell(row=row_number, column=write_column).value = credit_ratio
         write_column += 1
+
+#           単元株
+    try:
+        unit_share = str(soup.select('td')[40])
+    except IndexError as e:
+        print('単元株存在しない')
+        print(unit_share)
+        write_column += 1
+        pass
+    else:
+        sheet.cell(row=j, column=write_column).value = unit_share
+    write_column += 1
+
 #    sheet.cell(row=row_number, column=write_column).value = str(soup.select('td')[82])
 #    write_column = write_column + 1
 #           決算タブに移動
@@ -588,6 +601,18 @@ for code_number in range(10, 100):
         sheet.cell(row=row_number, column=write_column).value = credit_ratio
         write_column += 1
 
+#           単元株
+    try:
+        unit_share = str(soup.select('td')[40])
+    except IndexError as e:
+        print('単元株存在しない')
+        print(unit_share)
+        write_column += 1
+        pass
+    else:
+        sheet.cell(row=j, column=write_column).value = unit_share
+    write_column += 1
+    
 #           決算タブに移動
 #    kabutan_URL_base_finance = 'http://kabutan.jp/stock/finance?code='
 #    kabutan_URL_finance = kabutan_URL_base_finance + str(stock_code)
@@ -601,6 +626,9 @@ for code_number in range(10, 100):
 #           1秒待機
 #    time.sleep(1)
     code_number += 1
+
+
+
     wb.save('C:/Users/touko/OneDrive/株価分析/excel/株式データ/銘柄データ集計/stockcodelist.xlsx')
 
 #100-999→'00'+100-999
@@ -875,6 +903,19 @@ for code_number in range(100, 1000):
         
         sheet.cell(row=row_number, column=write_column).value = credit_ratio
         write_column += 1
+
+#           単元株
+    try:
+        unit_share = str(soup.select('td')[40])
+    except IndexError as e:
+        print('単元株存在しない')
+        print(unit_share)
+        write_column += 1
+        pass
+    else:
+        sheet.cell(row=j, column=write_column).value = unit_share
+    write_column += 1
+
 #    決算タブに移動
 #    kabutan_URL_base_finance = 'http://kabutan.jp/stock/finance?code='
 #    kabutan_URL_finance = kabutan_URL_base_finance + str(stock_code)
@@ -1165,4 +1206,16 @@ for code_number in range(1000, 10000):
         
         #    time.sleep(1)
     code_number += 1
+#           単元株
+    try:
+        unit_share = str(soup.select('td')[40])
+    except IndexError as e:
+        print('単元株存在しない')
+        print(unit_share)
+        write_column += 1
+        pass
+    else:
+        sheet.cell(row=j, column=write_column).value = unit_share
+    write_column += 1
+
 wb.save('C:/Users/touko/OneDrive/株価分析/excel/株式データ/銘柄データ集計/stockcodelist.xlsx')

@@ -42,12 +42,12 @@ print(str(marketbook))
 sheet01 = databook01.worksheets[0]
 sheet02 = databook02.worksheets[0]
 sheet03 = marketbook.worksheets[0]
-lastrow_databook01 = sheet01.max_row + 1
-lastrow_databook02 = sheet02.max_row + 1
+lastrow_databook01 = sheet01.max_row
+lastrow_databook02 = sheet02.max_row
 lastrow_marketbook = sheet03.max_row
 
 #databook内の対象cell(code_databook)を指定する
-for i in range(2, lastrow_databook01+1):
+for i in range(2, lastrow_databook01):
     code_databook = str(sheet01.cell(row=i,column=2).value)
 #    treatment = str(sheet01.cell(row=i,column=5).value)
 
@@ -61,7 +61,7 @@ for i in range(2, lastrow_databook01+1):
 #            print(code_databook)
 
 #databook内の対象cell(code_databook)を指定する
-for i in range(2, lastrow_databook02+1):
+for i in range(2, lastrow_databook02):
     code_databook = str(sheet02.cell(row=i,column=2).value)
 #    treatment = str(sheet01.cell(row=i,column=5).value)
 
