@@ -1,0 +1,117 @@
+'''
+プログラミング
+python
+・プログラミング：ダウンロードしたプログラムからallkabuアウトプットプログラムへの実装-これは別プログラムにした方が良いか
+1. 銘柄別融資・貸株残高、品貸料率データを日証金からダウンロードする
+2. ダウンロードしたデータを開く
+3. ダウンロードしたデータ内で証券コードを指定する
+4. 指定した証券コードをキーに市場データで一致する証券コードを検索する
+5. 一致した行に対して、指定した証券コードの対応データを指定した列にコピペする
+
+対応データ
+銘柄別融資・貸株残高、品貸料率データURL
+https://www.taisyaku.jp/search/result/index/1/
+品貸料率：aタグ22
+銘柄別融資・貸株残高：aタグ28
+
+ポイント
+・ファイルをダウンロード
+    →2021/09/21-実装凍結-データ処理プログラムの作成を優先
+    →selenium/webdriverで実装いけるかな
+・book1-cell1の数値をキーに、book2-column1の数値内検索。対応する行を特定。
+    →対応する行の指定した列にbook1のデータをコピペする
+'''
+import os
+import glob
+import openpyxl
+import pandas as pa
+import csv
+import datetime
+import winsound
+import shutil
+'''
+#ダウンロード機能
+taisho_URL = 'https://www.taisyaku.jp/search/result/index/1/'
+res = requests.get(taisho_URL)
+res.raise_for_status()
+soup = bs4.BeautifulSoup(res.content,'lxml')
+'''
+#対象：貸借取引銘柄別増担保金徴収措置一覧
+dir_data = "C:/Users/touko/OneDrive/株価分析/excel/株式データ/ダウンロードデータ/06.銘柄別融資・貸株残高一覧表/"
+dir_market = "C:/Users/touko/OneDrive/株価分析/excel/株式データ/"
+#ダウンロードしたexcel(以下databook)を開く
+data_list = glob.glob(dir_data + '*.csv')
+market_list = glob.glob(dir_market + '*.xlsx')
+t = datetime.datetime.now().time()
+print(t)
+#print(market_list)
+
+#print(market_list[0])
+
+databook = open(data_list[0])
+rows = csv.reader(databook)
+marketbook = openpyxl.load_workbook(market_list[0])
+sheet02 = marketbook.worksheets[0]
+lastrow_marketbook = sheet02.max_row + 1
+
+for row in rows:
+#allTxtDatabook = databook.readlines()
+#    print(row[1])
+    code_databook = str(row[1])
+    newLoan = str(row[4])
+    repayLoan = str(row[5])
+    balanceLoan = str(row[6])
+    lentStockNew = str(row[7])
+    lentStockRepay = str(row[8])
+    lentStockBalance = str(row[9])
+    balance = str(row[10])
+
+    for i in range(2,lastrow_marketbook+1):
+        if code_databook in str(sheet02.cell(row=i,column=2).value):
+#                print(newLoan)
+#                print(repayLoan)
+#                print(market_list[0])
+            sheet02.cell(row=i,column=111).value = newLoan
+            sheet02.cell(row=i,column=112).value = repayLoan
+            sheet02.cell(row=i,column=113).value = balanceLoan
+            sheet02.cell(row=i,column=114).value = lentStockNew
+            sheet02.cell(row=i,column=115).value = lentStockRepay
+            sheet02.cell(row=i,column=116).value = lentStockBalance
+            sheet02.cell(row=i,column=117).value = balance
+
+#print(str(marketbook))
+
+#sheet01 = databook.worksheets[0]
+
+#lastrow_databook = len(allTxtDatabook)+1
+'''
+lastrow_marketbook = sheet02.max_row + 1
+
+#databook内の対象cell(code_databook)を指定する
+for i in range(6, lastrow_databook):
+    code_databook = str(databook.cell(row=i,column=3).value)
+    rentStockOver = str(databook.cell(row=i,column=5).value)
+    maxRatio = str(sheet02.cell(row=i,column=10))
+    todayRatio = str(sheet02.cell(row=i,column=11))
+    yesterdayRatio = str(sheet02.cell(row=i,column=13))
+
+#marketbook内をcode_databookで検索
+    for j in range(2, lastrow_marketbook):
+
+#code_databookでヒットした行の指定列にコピペ
+        if code_databook in str(sheet02.cell(row=j, column=2).value):
+            sheet02.cell(row=j,column=121).value = rentStockOver
+            sheet02.cell(row=j,column=122).value = maxRatio
+            sheet02.cell(row=j,column=123).value = todayRatio
+            sheet02.cell(row=j,column=124).value = yesterdayRatio
+            print(code_databook)
+'''
+
+marketbook.save(market_list[0])
+databook.close()
+new_path = shutil.move(data_list[0],"C:/Users/touko/OneDrive/株価分析/excel/株式データ/ダウンロードデータ/06.銘柄別融資・貸株残高一覧表/完了/")
+print(t)
+t = datetime.datetime.now().time()
+print(t)
+
+winsound.Beep(500,50)  #ビープ音（500Hzの音を50msec流す）

@@ -64,6 +64,14 @@ for code_number in range(10):
     sheet.cell(row=row_number, column=write_column).value = str(stock_code)
     write_column += 1
 #    wb.save('allkabu1.xlsx')
+
+# #           名称
+#     stock_name = soup.select('h3')[0]
+#     print(stock_name)
+#     sheet.cell(row=row_number, column=write_column).value = str(soup.select('h3')[0])
+#     write_column += 1
+
+
 #           名称
     stock_name = soup.select('h3')[0]
     print(stock_name)
@@ -346,19 +354,12 @@ for code_number in range(10, 100):
     res = requests.get(kabutan_URL)
     res.raise_for_status()
     soup = bs4.BeautifulSoup(res.text, 'html.parser')
-#    wb = openpyxl.load_workbook('allkabu1.xlsx')
-#    name = wb.get_sheet_names
+
 
 #読み込んだ情報をexcelファイルに書き込む
 #           コード
     row_number = code_number + 1
     write_column = 1
-
-#    print(row_number)
-#    print(write_column)
-#    print(sheet.cell(row=row_number, column=write_column).value)
-#    print(sheet.title)
-#    print(name)
 
     d_today = datetime.date.today()
     sheet.cell(row=row_number, column=write_column).value = d_today
@@ -366,7 +367,7 @@ for code_number in range(10, 100):
 
     sheet.cell(row=row_number, column=write_column).value = str(stock_code)
     write_column += 1
-#    wb.save('allkabu1.xlsx')
+
 #           名称
     stock_name = soup.select('h3')[0]
     print(stock_name)
@@ -649,19 +650,11 @@ for code_number in range(100, 1000):
     res = requests.get(kabutan_URL)
     res.raise_for_status()
     soup = bs4.BeautifulSoup(res.text, 'html.parser')
-#    wb = openpyxl.load_workbook('allkabu1.xlsx')
-#    name = wb.get_sheet_names
 
 #読み込んだ情報をexcelファイルに書き込む
 #           コード
     row_number = code_number + 1
     write_column = 1
-
-#    print(row_number)
-#    print(write_column)
-#    print(sheet.cell(row=row_number, column=write_column).value)
-#    print(sheet.title)
-#    print(name)
 
     d_today = datetime.date.today()
     sheet.cell(row=row_number, column=write_column).value = d_today
@@ -669,7 +662,7 @@ for code_number in range(100, 1000):
 
     sheet.cell(row=row_number, column=write_column).value = str(stock_code)
     write_column += 1
-#    wb.save('allkabu1.xlsx')
+
 #           名称
     stock_name = soup.select('h3')[0]
     print(stock_name)

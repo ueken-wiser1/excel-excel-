@@ -59,8 +59,9 @@ t = datetime.datetime.now().time()
 
 for l in file_list:
 #フォルダ-市場内のexcelを開く
-    wb_market = openpyxl.load_workbook(l) 
+    wb_market = openpyxl.load_workbook(l)
     print(wb_market)
+
     sheet01 = wb_market.worksheets[0]
 #4.     excel-市場のn行目をコピーする
 #    j = 1
@@ -68,6 +69,7 @@ for l in file_list:
     for j in range(2, sheet01.max_row + 1):
 #5.     excel-市場のn行目に書かれた証券コードを読み込む
         stock_code = sheet01.cell(row=j, column=2).value
+        print(stock_code)
 #        print(stock_code)
         #6.     証券コードと同じ数字をファイル名に含むexcel-銘柄をフォルダ-Bから選択して開く
 #       ストックコードと同じコードをファイル名に含むファイルを検索する
@@ -78,12 +80,13 @@ for l in file_list:
 #        sys.exit()
         company_book = book_search_list[0]
         print(company_book)
+#        print(len(book_search_list))
         wb_company = openpyxl.load_workbook(company_book) #フォルダ-銘柄のexcelを開く
         sheet02 = wb_company.worksheets[0]
         last_row = sheet02.max_row
         last_column = sheet02.max_column
 #        print(last_row)
-        for k in range(1, sheet02.max_column):
+        for k in range(1, sheet02.max_column+1):
 #                file_path = os.path(dir02 + stock_code + '*')
 #                print(file_path)
                 row_copy = sheet01.cell(row=j, column=k).value
