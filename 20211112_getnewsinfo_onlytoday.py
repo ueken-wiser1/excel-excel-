@@ -32,7 +32,7 @@ t = datetime.datetime.now().time()
 '''
 
 #------------プログラム本文---ここから
-folder01 = "C:/Users/touko/OneDrive/株価分析/excel/株式データ/test/20211112/"
+folder01 = "C:/Users/touko/OneDrive/株価分析/excel/株式データ/"
 kabutan_newsURL_base = 'https://kabutan.jp/stock/news?code='
 
 
@@ -53,10 +53,10 @@ sheet01 = stockbook.worksheets[0]
 lastrow_stockbook =sheet01.max_row
 for i in range(2,lastrow_stockbook+1):
     if sheet01.cell(row=i,column=999).value == 1:
-        print(lastrow_stockbook,sheet01.cell(row=lastrow_stockbook,column=1).value,"passします")
+        print(lastrow_stockbook,sheet01.cell(row=i,column=1).value,"passします")
         continue
     else:
-        date_stockbook = sheet01.cell(row=lastrow_stockbook,column=1).value
+        date_stockbook = sheet01.cell(row=i,column=1).value
         date_stockbookstr = str(date_stockbook)
         slicedate_stockbook = date_stockbookstr[0:10]
         stockcode = sheet01.cell(row=i,column=2).value
@@ -64,6 +64,7 @@ for i in range(2,lastrow_stockbook+1):
     #対象銘柄の株探ニュースページの各ページ送り
 
         time.sleep(0.3)
+        
         res = requests.get(kabutan_newsURL_base+stockcode)
         res.raise_for_status()
         soup = bs4.BeautifulSoup(res.text, 'html.parser')
@@ -77,45 +78,45 @@ for i in range(2,lastrow_stockbook+1):
             parent_sitedate = date_site.parent
     #銘柄データで取り込んだ日付とニュースページで取り込んだ日付を突き合わせる
             if slicedate_stockbook == slicedate_site:
-                print(num_datetags)
+                # print(num_datetags)
                 print(sheet01.cell(row=i,column=2).value,sheet01.cell(row=i,column=3).value)
     #ニュースカテゴリーで分類分け
     #ニュース掲載時間で分類分け－当日or翌日
                 if "ctg_kaiji" in str(parent_sitedate) \
                     or "ctg2" in str(parent_sitedate):
                     if int(date_sitestr[49:51]) >=15:
-                        sheet01.cell(row=lastrow_stockbook,column=56).value = 1
+                        sheet01.cell(row=i,column=56).value = 1
                         print(parent_sitedate)
                     else:
-                        sheet01.cell(row=lastrow_stockbook,column=51).value = 1
+                        sheet01.cell(row=i,column=51).value = 1
                         print(parent_sitedate)
                 elif "ctg3_kk" in str(parent_sitedate):
                     if int(date_sitestr[49:51]) >=15:
-                        sheet01.cell(row=lastrow_stockbook,column=57).value = 1
+                        sheet01.cell(row=i,column=57).value = 1
                         print(parent_sitedate)
                     else:
-                        sheet01.cell(row=lastrow_stockbook,column=52).value = 1
+                        sheet01.cell(row=i,column=52).value = 1
                         print(parent_sitedate)
                 elif "ctg3_ks" in str(parent_sitedate):
                     if int(date_sitestr[49:51]) >=15:
-                        sheet01.cell(row=lastrow_stockbook,column=58).value = 1
+                        sheet01.cell(row=i,column=58).value = 1
                         print(parent_sitedate)
                     else:
-                        sheet01.cell(row=lastrow_stockbook,column=53).value = 1
+                        sheet01.cell(row=i,column=53).value = 1
                         print(parent_sitedate)
                 elif "ctg4" in str(parent_sitedate):
                     if int(date_sitestr[49:51]) >=15:
-                        sheet01.cell(row=lastrow_stockbook,column=59).value = 1
+                        sheet01.cell(row=i,column=59).value = 1
                         print(parent_sitedate)
                     else:
-                        sheet01.cell(row=lastrow_stockbook,column=54).value = 1
+                        sheet01.cell(row=i,column=54).value = 1
                         print(parent_sitedate)
                 elif "ctg12" in str(parent_sitedate):
                     if int(date_sitestr[49:51]) >=15:
-                        sheet01.cell(row=lastrow_stockbook,column=60).value = 1
+                        sheet01.cell(row=i,column=60).value = 1
                         print(parent_sitedate)
                     else:
-                        sheet01.cell(row=lastrow_stockbook,column=55).value = 1
+                        sheet01.cell(row=i,column=55).value = 1
                         print(parent_sitedate)
                 else:
                     pass

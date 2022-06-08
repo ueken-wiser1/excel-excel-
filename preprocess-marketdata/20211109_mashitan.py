@@ -55,16 +55,16 @@ print(str(marketbook))
 
 sheet01 = databook.worksheets[0]
 sheet02 = marketbook.worksheets[0]
-lastrow_databook = sheet01.max_row + 1
-lastrow_marketbook = sheet02.max_row + 1
+lastrow_databook = sheet01.max_row
+lastrow_marketbook = sheet02.max_row
 
 #databook内の対象cell(code_databook)を指定する
-for i in range(7, lastrow_databook):
+for i in range(7, lastrow_databook+1):
     code_databook = str(sheet01.cell(row=i,column=2).value)
     treatment = str(sheet01.cell(row=i,column=5).value)
 
 #marketbook内をcode_databookで検索
-    for j in range(2, lastrow_marketbook):
+    for j in range(2, lastrow_marketbook+1):
 
 #code_databookでヒットした行の指定列にコピペ
         if code_databook in str(sheet02.cell(row=j, column=2).value):

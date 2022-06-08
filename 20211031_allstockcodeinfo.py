@@ -638,7 +638,7 @@ for code_number in range(10, 100):
 
 #100-999→'00'+100-999
 for code_number in range(100, 1000):
-    time.sleep(0.1)
+    time.sleep(0.2)
     stock_code = '0' + str(code_number)
 
     kabutan_URL_base = 'http://kabutan.jp/stock/?code='
@@ -1136,7 +1136,7 @@ for code_number in range(1000, 10000):
 
 #           上場市場
     try:
-        stock_price = str(soup.select('span')[12].get_text())
+        stock_price = str(soup.select('span')[13].get_text())
     except IndexError as e:
 #        print('上場市場存在しない')
         write_column += 1
@@ -1215,7 +1215,7 @@ for code_number in range(1000, 10000):
         sheet.cell(row=row_number, column=write_column).value = unit_share
         write_column += 1
 
-wb.save('C:/Users/touko/OneDrive/株価分析/excel/株式データ/銘柄データ集計/stockcodelist.xlsx')
+wb.save('C:/Users/touko/OneDrive/株価分析/excel/株式データ/銘柄データ集計/stockcodelist_raw.xlsx')
 
 print(t)
 t = datetime.datetime.now().time()

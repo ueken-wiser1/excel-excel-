@@ -1222,7 +1222,7 @@ for code_number in range(1000, 10000):
         sheet.cell(row=row_number, column=write_column).value = unit_share
         write_column += 1
 
-wb.save('C:/Users/touko/OneDrive/株価分析/excel/株式データ/銘柄データ集計/stockcodelist.xlsx')
+wb.save('C:/Users/touko/OneDrive/株価分析/excel/株式データ/銘柄データ集計/stockcodelist_raw.xlsx')
 
 print(t)
 t = datetime.datetime.now().time()

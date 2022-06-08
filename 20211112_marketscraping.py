@@ -9,6 +9,8 @@ import sys
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys as keys
 import winsound
+import xlwings
+
 
 #------------お約束開始---冒頭
 #稼働時間計測開始
@@ -228,7 +230,7 @@ for j in range(2, sheet.max_row + 1):
 
 #           上場市場
     try:
-        stock_price = str(soup.select('span')[12].get_text())
+        stock_price = str(soup.select('span')[13].get_text())
     except IndexError as e:
         print('上場市場存在しない')
         write_column += 1
@@ -303,6 +305,15 @@ wb.save('C:/Users/touko/OneDrive/株価分析/excel/株式データ/allkabu1.xls
 print(t)
 t = datetime.datetime.now().time()
 print(t)
+
+#app = xlwings.App()
+#wb = app.books.open('C:/Users/touko/OneDrive/株価分析/excel/株式データ/allkabu1.xlsm')
+#pg = wb.macro('不要タグ削除test')
+#pg()
+#wb.sabe('C:/Users/touko/OneDrive/株価分析/excel/株式データ/allkabu1.xlsm')
+#wb.close()
+#app.quit()
+
 
 #稼働終了アナウンス
 import winsound

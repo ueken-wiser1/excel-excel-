@@ -15,7 +15,7 @@ t = datetime.datetime.now().time()
 
 #------------プログラム本文---ここから
 #使用フォルダ指定
-folder01 = "C:/Users/touko/OneDrive/株価分析/excel/株式データ/株式/完了/"
+folder01 = "C:/Users/touko/OneDrive/株価分析/excel/株式データ/株式/"
 folder02 = "C:/Users/touko/OneDrive/株価分析/excel/株式データ/集計結果/"
 
 #記録ファイルを開く

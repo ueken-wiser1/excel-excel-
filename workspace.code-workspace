@@ -1,9 +1,7 @@
 {
 	"folders": [
 		{
-			"name": "excel-excel-",
-			"path": "."
+			"path": ".."
 		}
-	],
-	"settings": {}
+	]
 }

@@ -20,7 +20,7 @@ t = datetime.datetime.now().time()
 d = datetime.date.today()
 
 scorebook_dir = 'C:/Users/touko/OneDrive/株価分析/excel/株式データ/スコアブック/'
-scorebook = scorebook_dir+'2021-11-01score.xlsx'
+scorebook = scorebook_dir+str(d)+'score.xlsx'
 today_scorebook = openpyxl.load_workbook(scorebook)
 
 scoresheet_allscore = today_scorebook['allscore']

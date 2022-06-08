@@ -228,7 +228,7 @@ for j in range(2, sheet.max_row + 1):
 
 #           上場市場
     try:
-        stock_price = str(soup.select('span')[12].get_text())
+        stock_price = str(soup.select('span')[13].get_text())
     except IndexError as e:
         print('上場市場存在しない')
         write_column += 1

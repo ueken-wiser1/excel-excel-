@@ -4,4 +4,5 @@ python C:\Users\touko\program\github\excel-excel-\excel-excel-\preprocess-market
 python C:\Users\touko\program\github\excel-excel-\excel-excel-\preprocess-marketdata/20211109_mashitan.py
 python C:\Users\touko\program\github\excel-excel-\excel-excel-\preprocess-marketdata/20211109_shinakashi.py
 python C:\Users\touko\program\github\excel-excel-\excel-excel-\preprocess-marketdata/20211109_yushikashikabu.py
+
 pause

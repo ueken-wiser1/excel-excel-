@@ -47,6 +47,7 @@ sheet02 = wb_write_lowpricestock.active
 k = 2
 t = datetime.datetime.now().time()
 print(t)
+# print(sheet01.max_row)
 
 #パラメータ名の記載
 sheet02.cell(row=1, column=1).value = "日付"
@@ -80,6 +81,7 @@ for j in range(2, sheet01.max_row + 1):
 #    print('tdタグ数：', len(tdtags))  #aタグ数取得
     num_tdtags = int(len(tdtags))
     for i in range(23, 45):
+        # print(stock_code)
         t_news = str(soup.select('td')[i-2].get_text())
         td_elem = str(soup.select('td')[i-2])
         news_tag = str(soup.select('td')[i-1])   
@@ -95,6 +97,7 @@ for j in range(2, sheet01.max_row + 1):
                 if tf02 == False:
 #必要な情報を取得する
                     print(stock_code)
+                    # print(len(soup.find_all('span')))
 #            print(d_today)
                     tdtags=soup.find_all('td')       #全aタグ取得
 #            print('tdタグ数：', len(tdtags))  #aタグ数取得
@@ -115,6 +118,7 @@ t = datetime.datetime.now().time()
 print(t)
 path = "C:/Users/touko/OneDrive/株価分析/excel/株式データ/ダウンロードデータ/07.IR情報入力処理/"
 wb_write_lowpricestock.save(path+str(d_today)+"newsallkabu.xlsx")
+wb_write_lowpricestock.close()
 winsound.Beep(500,50)  #ビープ音（500Hzの音を50msec流す）
 #全ての証券コードが完了したら、onedriveにexcel保存
 #powerautomateでonedrive保存をトリガーに自分にmail展開

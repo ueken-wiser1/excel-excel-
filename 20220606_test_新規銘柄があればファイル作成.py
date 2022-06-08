@@ -12,7 +12,7 @@ import sys
 import winsound
 
 #どんな動きをさせるのか
-#1.     
+#1.     stock_listにない銘柄を発見できるか
 #2.     
 #3.     
 #4.     
@@ -25,42 +25,31 @@ import winsound
 #11.    
 #12.    
 
-#要確認事項
-#1. file_
-
 #プログラム
-
 
 dirdaily = "C:/Users/touko/OneDrive/株価分析/excel/株式データ/未完了/"
 dirmerge = "C:/Users/touko/OneDrive/株価分析/excel/株式データ/株式/"
-dirstorage = "C:/Users/touko/OneDrive/株価分析/excel/株式データ/完了/"
-
 file_list = glob.glob(dirdaily + '*.xlsx')
 stock_list = glob.glob(dirmerge + '*.xlsx')
 
 t = datetime.datetime.now().time()
-d = datetime.datetime.now()
-d1 = d.strftime('%Y%m%d')
 
 for l in file_list:
 
     wb_market = openpyxl.load_workbook(l)
-    print(l)
-
+    print(wb_market)
     sheetmarket = wb_market.worksheets[0]
-
     for j in range(2, sheetmarket.max_row-1):
-
         stock_code = sheetmarket.cell(row=j, column=2).value
         print(stock_code)
-
         book_search_list = glob.glob(dirmerge + str(stock_code) + '*.xlsx')
-
+        
         if len(book_search_list) == 0:
                 stock_name = sheetmarket.cell(row=j, column=3).value
                 wb_new = openpyxl.Workbook()
                 sheet_new = wb_new.active
                 wb_new.save(dirmerge+stock_code+'_'+stock_name+'.xlsx')
+                print('book_search_listが空の場合')
                 for h in range(1, sheetmarket.max_column+1):
                         itemname = sheetmarket.cell(row=1, column=h).value
                         row_data = sheetmarket.cell(row=j, column=h).value
@@ -71,7 +60,7 @@ for l in file_list:
 
         else:
                 company_book = book_search_list[0]
-                print(company_book)
+                print('book_search_listがある場合')
 
                 wb_company = openpyxl.load_workbook(company_book) #フォルダ-銘柄のexcelを開く
                 sheetcompany = wb_company.worksheets[0]
@@ -79,19 +68,21 @@ for l in file_list:
                 last_column = sheetcompany.max_column
 
                 for k in range(1, sheetcompany.max_column+1):
-
                         row_copy = sheetmarket.cell(row=j, column=k).value
 
                         sheetcompany.cell(row = last_row+1, column=k, value=row_copy)
 
                         k += 1
-                        wb_company.save(company_book)
-                        wb_company.close()
+                wb_company.save(company_book)
+                wb_company.close()
         j += 1
 
+#8.     excel-銘柄を閉じる
+
+#10.    excel-市場の全てのデータをコピーしたら、excel-市場を閉じる
     wb_market.close()
 
-
+#12.    フォルダ-Aの全てのファイルを走査したら、プログラムを終了する
 print(t)
 t = datetime.datetime.now().time()
 print(t)
