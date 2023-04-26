@@ -11,13 +11,14 @@ import urllib
 #株探URLに読み込んだ銘柄コードを組み合わせて銘柄ページに移動
 #行【銘柄コード】に数値があれば、値をURLに組み込む
 #       print(code_row)
-kabutan_URL = 'https://kabutan.jp/stock/?code=3647'
+kabutan_URL = 'https://kabutan.jp/stock/?code=1301'
+kabutankessan_URL = 'https://kabutan.jp/stock/finance/?code=1301'
 
 #銘柄ページから情報を読み込む
-res = requests.get(kabutan_URL)
+res2 = requests.get(kabutankessan_URL)
 print(kabutan_URL)
-res.raise_for_status()
-soup = bs4.BeautifulSoup(res.text, 'html.parser')
+res2.raise_for_status()
+soup2 = bs4.BeautifulSoup(res2.text, 'html.parser')
 
 #td_elem = soup.select('span')[1]
 #print(td_elem)
@@ -30,14 +31,15 @@ soup = bs4.BeautifulSoup(res.text, 'html.parser')
 #欲しい情報：<span class="market"><a href="/themes/?industry=25&market=2">
 #tdtags=soup.find_all('td')       #全aタグ取得
 #print('tdタグ数：', len(tdtags))  #aタグ数取得
-tags = soup.find_all('span')       #全aタグ取得
+tags = soup2.find_all('td')       #全aタグ取得
 #print('tdタグ数：', len(tdtags))  #aタグ数取得a53 td25
 num_tags = int(len(tags))
+print(num_tags)
 
 for i in range(num_tags):
     print(i)
 #    print(d_today)
-    td_elem = soup.select('span')[i]
+    td_elem = soup2.select('td')[i]
 #    td_elem2 = soup.select('td')[i+2].get_text()
     print(td_elem)
 

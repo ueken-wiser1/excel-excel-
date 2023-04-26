@@ -1153,7 +1153,7 @@ for code_number in range(1000, 9999):
 
 #           信用倍率
     try:
-        credit_ratio = str(soup.select('td')[48])
+        credit_ratio = str(soup.select('span')[11])
     except IndexError as e:
 #        print('信用倍率存在しない')
         write_column += 1

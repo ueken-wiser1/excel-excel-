@@ -1,0 +1,312 @@
+import imp
+import os
+from re import L
+from turtle import color
+import openpyxl
+from openpyxl.styles import PatternFill
+import pandas as pd
+import numpy as np
+import bottleneck as bn
+import requests
+import bs4
+import time
+import datetime
+import glob
+import re
+import sys
+import winsound
+
+
+#どんな動きをさせるのか
+#1. 銘柄データ格納フォルダを取得
+#2. 銘柄データを順番に開く
+#3. 指定の列に日次データを計算
+#4.     
+#5.     
+#6.     
+#7.     
+#8.     
+#9.     
+#10.    
+#11.    
+#12.    
+
+#要確認事項
+#1. file_
+
+#プログラム
+
+dirmerge = "C:/Users/touko/OneDrive/株価分析/excel/株式データ/株式/"
+
+stock_list = glob.glob(dirmerge + '*.xlsx')
+
+#開始時間取得
+t = datetime.datetime.now()
+d = datetime.datetime.now()
+d1 = d.strftime('%Y%m%d')
+#開始時間取得
+except_list = ['C:/Users/touko/OneDrive/株価分析/excel/株式データ/株式/0000', 'C:/Users/touko/OneDrive/株価分析/excel/株式データ/株式/0010', '0011', '0012', '0090', '0091', '0092', '0093', '0094', '0095', '0101', '0102', '0108', '0800', '0802']
+
+for l in stock_list:
+
+        wb = openpyxl.load_workbook(l)
+        sheetstock = wb.worksheets[0]
+        lastrow_stockbook = sheetstock.max_row+1
+        lastcolumn_stockbook = sheetstock.max_column
+
+
+#配列宣言
+        stockprice = [] #株価
+        turnover = [] #出来高
+        stockprice_5dmovemean = [] #5日移動平均
+        stockprice_25dmovemean = [] #25日移動平均
+        stockprice_75dmovemean = [] #75日移動平均
+        stockprice_10dmovemean = [] #10日移動平均
+        stockprice_15dmovemean = [] #15日移動平均
+        stockprice_20dmovemean = [] #20日移動平均
+        stockprice_30dmovemean = [] #30日移動平均
+        stockprice_65dmovemean = [] #13週移動平均
+        stockprice_130dmovemean = [] #26週移動平均
+        turnover_5movemean = [] #5日移動平均出来高
+        turnover_10movemean = [] #10日移動平均出来高
+        stockprice_25dmovestd = [] #25日移動標準偏差
+        stockprice_65dmovestd = [] #13週移動標準偏差
+
+
+
+#シートの2行目~最終行をループ
+        for i in range(2,lastrow_stockbook):
+
+#A列を配列へ格納
+#                print(i)
+                stockprice = np.append(stockprice, sheetstock.cell(row=i, column=4).value)
+                turnover = np.append(turnover, sheetstock.cell(row=i, column=11).value)
+#                print(i)
+                
+#                stockprice1 = bn.move_mean(stockprice, window=5)
+#                print(type(sheetstock.cell(row=i, column=13).value))
+#                print(type(sheetstock.cell(row=i, column=14).value))
+#                if sheetstock.cell(i,13).value or sheetstock.cell(i,14).value is None:
+#                        print(str(sheetstock.cell(i,13).value)+'='+str(sheetstock.cell(i,14).value))
+#                        continue
+#                else:
+#                        sheetstock.cell(row=i, column=6).value = sheetstock.cell(row=i, column=13).value - sheetstock.cell(row=i, column=14).value
+#                        
+#                        print(sheetstock.cell(row=i, column=6).value)
+                
+#売買代金2=VWAP(T)*出来高(K)
+#                sheetstock.cell(row=i,column=25).value = sheetstock.cell(row=i,column=20).value * sheetstock.cell(row=i,column=11).value
+                #ローソク足の分類分け
+#陽線/陰線の場合分け
+                if sheetstock.cell(row=i, column=12).value > sheetstock.cell(row=i, column=15).value:
+#                        print(str(i))
+                        fill = PatternFill(patternType="solid", fgColor="00BFFF")
+                        sheetstock.cell(row=i, column=228).value = '陰線'
+                        sheetstock.cell(row=i, column=228).fill = fill
+                elif sheetstock.cell(row=i, column=15).value > sheetstock.cell(row=i, column=12).value:
+                        fill = PatternFill(patternType="solid", fgColor="FF69B4")
+                        sheetstock.cell(row=i,column=228).value = '陽線'
+                        sheetstock.cell(row=i, column=228).fill = fill
+                else:
+                        sheetstock.cell(row=i, column=228).value = '十字線'
+#                        print(str(i))
+
+
+#実体の長さ
+                candle = abs(sheetstock.cell(row=i,column=12).value - sheetstock.cell(row=i, column=15).value)
+#陰線の場合
+                if sheetstock.cell(row=i, column=228).value == '陰線':
+                        blue_beard_over = sheetstock.cell(row=i, column=13).value - sheetstock.cell(row=i, column=12).value
+                        blue_beard_under = sheetstock.cell(row=i, column=15).value - sheetstock.cell(row=i, column=14).value
+                        if candle > blue_beard_over and candle > blue_beard_under:
+                                sheetstock.cell(row=i, column=227).value = '大'
+                        elif candle >= blue_beard_over and candle <= blue_beard_under:
+                                sheetstock.cell(row=i, column=227).value = '下影'
+                        elif candle <= blue_beard_over and candle >= blue_beard_under:
+                                sheetstock.cell(row=i, column=227).value = '上影'
+                        elif candle < blue_beard_over and candle < blue_beard_under:
+                                sheetstock.cell(row=i, column=227).value = '小'
+                        else:
+                                sheetstock.cell(row=i, column=227).value = '異常値'
+#陽線の場合
+                elif sheetstock.cell(row=i, column=228).value == '陽線':
+                        red_beard_over = sheetstock.cell(row=i, column=13).value - sheetstock.cell(row=i, column=15).value
+                        red_beard_under = sheetstock.cell(row=i, column=12).value - sheetstock.cell(row=i, column=14).value
+                        if candle > red_beard_over and candle > red_beard_under:
+                                sheetstock.cell(row=i, column=227).value = '大'
+                        elif candle >= red_beard_over and candle <= red_beard_under:
+                                sheetstock.cell(row=i, column=227).value = '下影'
+                        elif candle <= red_beard_over and candle >= red_beard_under:
+                                sheetstock.cell(row=i, column=227).value = '上影'
+                        elif candle < red_beard_over and candle < red_beard_under:
+                                sheetstock.cell(row=i, column=227).value = '小'
+                        else:
+                                sheetstock.cell(row=i, column=227).value = '異常値'
+#        print(stockprice)
+#        print(turnover)
+        if lastrow_stockbook > 7:
+                stockprice_5dmovemean = bn.move_mean(stockprice, window=5)
+                turnover_5dmovemean = bn.move_mean(turnover, window=5)
+                if lastrow_stockbook > 12:
+                        stockprice_10dmovemean = bn.move_mean(stockprice, window=10)
+                        turnover_10dmovemean = bn.move_mean(turnover, window=10)
+                        if lastrow_stockbook > 17:
+                                stockprice_15dmovemean = bn.move_mean(stockprice, window=15)
+                                if lastrow_stockbook > 22:
+                                        stockprice_20dmovemean = bn.move_mean(stockprice, window=20)
+                                        if lastrow_stockbook > 27:
+                                                stockprice_25dmovemean = bn.move_mean(stockprice, window=25)
+                                                stockprice_25dmovestd = bn.move_std(stockprice, window=25)
+                                                if lastrow_stockbook > 32:
+                                                        stockprice_30dmovemean = bn.move_mean(stockprice, window=30)
+                                                        if lastrow_stockbook > 67:
+                                                                stockprice_65dmovemean = bn.move_mean(stockprice, window=65)
+                                                                stockprice_65dmovestd = bn.move_std(stockprice, window=65)
+                                                                if lastrow_stockbook > 132:
+                                                                        stockprice_130dmovemean = bn.move_mean(stockprice, window=130)
+
+                                                                        
+
+#        print(stockprice1)
+#        print('移動平均', bn.move_mean(stockprice, window = 5))
+        for j in range(2, lastrow_stockbook):
+                if lastrow_stockbook > 7:
+                        sheetstock.cell(row=j,column=199).value = stockprice_5dmovemean[j-2]
+                        sheetstock.cell(row=j,column=230).value = turnover_5dmovemean[j-2]
+                        if lastrow_stockbook > 12:
+                                sheetstock.cell(row=j,column=205).value = stockprice_10dmovemean[j-2]
+                                sheetstock.cell(row=j,column=211).value = turnover_10dmovemean[j-2]
+                                if lastrow_stockbook > 17:
+                                        sheetstock.cell(row=j,column=206).value = stockprice_15dmovemean[j-2]
+                                        if lastrow_stockbook > 22:
+                                                sheetstock.cell(row=j,column=207).value = stockprice_20dmovemean[j-2]
+                                                if lastrow_stockbook > 27:
+                                                        sheetstock.cell(row=j,column=200).value = stockprice_25dmovemean[j-2]
+                                                        if lastrow_stockbook > 32:
+                                                                sheetstock.cell(row=j,column=208).value = stockprice_30dmovemean[j-2]
+                                                                if lastrow_stockbook > 67:
+                                                                        sheetstock.cell(row=j,column=209).value = stockprice_65dmovemean[j-2]
+                                                                        if lastrow_stockbook > 132:
+                                                                                sheetstock.cell(row=j,column=210).value = stockprice_130dmovemean[j-2]
+                                                                                
+
+                if lastrow_stockbook > 7:
+                        if sheetstock.cell(j,15).value-sheetstock.cell(j,199).value>0 and sheetstock.cell(j-1,15).value-sheetstock.cell(j-1,199).value<=0:
+                                sheetstock.cell(j,229).value=1
+                        elif sheetstock.cell(j,15).value-sheetstock.cell(j,199).value<=0 and sheetstock.cell(j-1,15).value-sheetstock.cell(j-1,199).value>0:
+                                sheetstock.cell(j,229).value=4
+                        else:
+                                pass
+
+                if lastrow_stockbook > 7:
+                        if sheetstock.cell(j,11).value-sheetstock.cell(j,230).value>0 and sheetstock.cell(j-1,11).value-sheetstock.cell(j-1,230).value<=0:
+                                sheetstock.cell(j,231).value=1
+                        elif sheetstock.cell(j,11).value-sheetstock.cell(j,230).value<=0 and sheetstock.cell(j-1,11).value-sheetstock.cell(j-1,230).value>0:
+                                sheetstock.cell(j,231).value=4
+                        else:
+                                pass
+
+                if lastrow_stockbook > 27:
+                        sheetstock.cell(row=j,column=212).value = stockprice_25dmovemean[j-2]+stockprice_25dmovestd[j-2] #25日+1σ
+                        sheetstock.cell(row=j,column=213).value = stockprice_25dmovemean[j-2]-stockprice_25dmovestd[j-2] #25日-1σ
+                        sheetstock.cell(row=j,column=214).value = stockprice_25dmovemean[j-2]+2*stockprice_25dmovestd[j-2] #25日+2σ
+                        sheetstock.cell(row=j,column=215).value = stockprice_25dmovemean[j-2]-2*stockprice_25dmovestd[j-2] #25日-2σ
+                        sheetstock.cell(row=j,column=216).value = stockprice_25dmovemean[j-2]+3*stockprice_25dmovestd[j-2] #25日+3σ
+                        sheetstock.cell(row=j,column=217).value = stockprice_25dmovemean[j-2]-3*stockprice_25dmovestd[j-2] #25日-3σ
+
+                if lastrow_stockbook > 67:
+                        sheetstock.cell(row=j,column=218).value = stockprice_65dmovemean[j-2]+stockprice_65dmovestd[j-2] #13週+1σ
+                        sheetstock.cell(row=j,column=219).value = stockprice_65dmovemean[j-2]-stockprice_65dmovestd[j-2] #13週-1σ
+                        sheetstock.cell(row=j,column=220).value = stockprice_65dmovemean[j-2]+2*stockprice_65dmovestd[j-2] #13週+2σ
+                        sheetstock.cell(row=j,column=221).value = stockprice_65dmovemean[j-2]-2*stockprice_65dmovestd[j-2] #13週-2σ
+                        sheetstock.cell(row=j,column=222).value = stockprice_65dmovemean[j-2]+3*stockprice_65dmovestd[j-2] #13週+3σ
+                        sheetstock.cell(row=j,column=223).value = stockprice_65dmovemean[j-2]-3*stockprice_65dmovestd[j-2] #13週-3σ
+
+                if lastrow_stockbook > 27:
+                        if sheetstock.cell(row=j, column=216).value<sheetstock.cell(row=j,column=4).value:
+                                sheetstock.cell(row=j,column=224).value = 'プラスの異常値'
+                        elif sheetstock.cell(row=j, column=216).value>=sheetstock.cell(row=j, column=4).value>sheetstock.cell(row=j,column=214).value:
+                                sheetstock.cell(row=j, column=224).value = '+3σ範囲'
+                        elif sheetstock.cell(row=j, column=214).value>=sheetstock.cell(row=j, column=4).value>sheetstock.cell(row=j,column=212).value:
+                                sheetstock.cell(row=j, column=224).value = '+2σ範囲'
+                        elif sheetstock.cell(row=j, column=212).value>=sheetstock.cell(row=j, column=4).value>sheetstock.cell(row=j,column=200).value:
+                                sheetstock.cell(row=j, column=224).value = '+1σ範囲'
+                        elif sheetstock.cell(row=j, column=200).value>=sheetstock.cell(row=j, column=4).value>sheetstock.cell(row=j,column=213).value:
+                                sheetstock.cell(row=j, column=224).value = '-1σ範囲'
+                        elif sheetstock.cell(row=j, column=213).value>=sheetstock.cell(row=j, column=4).value>sheetstock.cell(row=j,column=215).value:
+                                sheetstock.cell(row=j, column=224).value = '-2σ範囲'
+                        elif sheetstock.cell(row=j, column=215).value>=sheetstock.cell(row=j, column=4).value>sheetstock.cell(row=j,column=217).value:
+                                sheetstock.cell(row=j, column=224).value = '-3σ範囲'
+                        elif sheetstock.cell(row=j, column=217).value>sheetstock.cell(row=j, column=4).value:
+                                sheetstock.cell(row=j, column=224).value = 'マイナスの異常値'
+                        else:
+                                sheetstock.cell(row=j, column=224).value = 'error'
+
+                if lastrow_stockbook > 67:
+                        if sheetstock.cell(row=j, column=222).value<sheetstock.cell(row=j,column=4).value:
+                                sheetstock.cell(row=j,column=225).value = 'プラスの異常値'
+                        elif sheetstock.cell(row=j, column=222).value>=sheetstock.cell(row=j, column=4).value>sheetstock.cell(row=j,column=220).value:
+                                sheetstock.cell(row=j, column=225).value = '+3σ範囲'
+                        elif sheetstock.cell(row=j, column=220).value>=sheetstock.cell(row=j, column=4).value>sheetstock.cell(row=j,column=218).value:
+                                sheetstock.cell(row=j, column=225).value = '+2σ範囲'
+                        elif sheetstock.cell(row=j, column=218).value>=sheetstock.cell(row=j, column=4).value>sheetstock.cell(row=j,column=209).value:
+                                sheetstock.cell(row=j, column=225).value = '+1σ範囲'
+                        elif sheetstock.cell(row=j, column=209).value>=sheetstock.cell(row=j, column=4).value>sheetstock.cell(row=j,column=219).value:
+                                sheetstock.cell(row=j, column=225).value = '-1σ範囲'
+                        elif sheetstock.cell(row=j, column=219).value>=sheetstock.cell(row=j, column=4).value>sheetstock.cell(row=j,column=221).value:
+                                sheetstock.cell(row=j, column=225).value = '-2σ範囲'
+                        elif sheetstock.cell(row=j, column=221).value>=sheetstock.cell(row=j, column=4).value>sheetstock.cell(row=j,column=223).value:
+                                sheetstock.cell(row=j, column=225).value = '-3σ範囲'
+                        elif sheetstock.cell(row=j, column=223).value>sheetstock.cell(row=j, column=4).value:
+                                sheetstock.cell(row=j, column=225).value = 'マイナスの異常値'
+                        else:
+                                sheetstock.cell(row=j, column=225).value = 'error'
+
+        wb.save(l)
+        print(l)
+
+#終了時間取得-経過時間
+print(t)
+t1 = datetime.datetime.now()
+print(t1)
+dt = t1-t
+print(dt)
+#終了時間取得-経過時間
+
+#稼働終了アナウンス
+winsound.Beep(500,100)  #ビープ音（500Hzの音を50msec流す）
+winsound.Beep(750,50)  #ビープ音（500Hzの音を50msec流す）
+winsound.Beep(500,100)  #ビープ音（500Hzの音を50msec流す）
+winsound.Beep(750,50)  #ビープ音（500Hzの音を50msec流す）
+winsound.Beep(750,50)  #ビープ音（500Hzの音を50msec流す）
+#------------お約束終了---末尾
+#株価列はD=4列目
+#13週(65日)移動平均     HA=209列目
+#26週(130日)移動平均    HB=210列目
+#移動平均5日線          GQ=199列目
+#移動平均10日線         GW=205列目
+#移動平均15日線         GX=206列目
+#移動平均20日線         GY=207列目
+#移動平均25日線         GR=200列目
+#移動平均30日線         GZ=208列目
+#ボリンジャーバンド 13週、25日
+#標準偏差
+#+1σ 25日               HD=212列目
+#-1σ 25日               HE=213列目
+#+2σ 25日               HF=214列目
+#-2σ 25日               HG=215列目
+#+3σ 25日               HH=216列目
+#-3σ 25日               HI=217列目
+#+1σ 13週               HJ=218列目
+#-1σ 13週               HK=219列目
+#+2σ 13週               HL=220列目
+#-2σ 13週               HM=221列目
+#+3σ 13週               HN=222列目
+#-3σ 13週               HO=223列目
+#25日ボリンジャーバンドでの株価位置   HP=224列目
+#13週ボリンジャーバンドでの株価位置   HQ=225列目
+#ローソク足分類         HQ=225列目
+
+
+
+

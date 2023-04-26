@@ -38,12 +38,17 @@ t = datetime.datetime.now().time()
 for j in range(2, sheet.max_row + 1):
     time.sleep(0.1)
     kabutan_URL_base = 'http://kabutan.jp/stock/?code='
+    kabutankessan_URL_base = 'http://kabutan.jp/stock/finance/?code='
     stock_code = sheet.cell(row=j, column=2).value
     kabutan_URL = kabutan_URL_base + str(stock_code)
+    kabutankessan_URL = kabutankessan_URL_base + str(stock_code)
     res = requests.get(kabutan_URL)
+    res2 = requests.get(kabutankessan_URL)
     print(kabutan_URL)
     res.raise_for_status()
+    res2.raise_for_status()
     soup = bs4.BeautifulSoup(res.text, 'html.parser')
+    soup2 = bs4.BeautifulSoup(res2.text, 'html.parser')
 
 #読み込んだ情報をexcelファイルに書き込む
 #書き出す初めのセルの列を指定
@@ -292,8 +297,42 @@ for j in range(2, sheet.max_row + 1):
         
         sheet.cell(row=j, column=write_column).value = credit_ratio
         write_column += 1
-    
 
+#           1株配当
+    try:
+        dividend = str(soup2.select('td')[57])
+    except IndexError as e:
+        print('1株配当存在しない')
+        write_column = 34
+        pass
+    else:
+        write_column = 34
+        sheet.cell(row=j, column=write_column).value = dividend
+        write_column += 1
+    
+#           業界
+    try:
+        market = str(soup.select('a')[28])
+    except IndexError as e:
+        print('業界存在しない')
+        write_column = 36
+        pass
+    else:
+        write_column = 36
+        sheet.cell(row=j, column=write_column).value = market
+        write_column += 1
+
+#           利回り
+    try:
+        kabu_PBR = str(soup.select('td')[20].get_text())
+    except IndexError as e:
+        print('利回り存在しない')
+        write_column = 63
+        pass
+    else:
+        write_column = 63
+        sheet.cell(row=j, column=write_column).value = kabu_PBR
+        write_column += 1
 
 wb.save('C:/Users/touko/OneDrive/株価分析/excel/株式データ/allkabu1.xlsx')
 #------------プログラム本文---ここまで

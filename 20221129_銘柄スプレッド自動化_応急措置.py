@@ -31,7 +31,7 @@ import winsound
 #プログラム
 
 dirdaily = "C:/Users/touko/OneDrive/株価分析/excel/株式データ/"
-dirmerge = "C:/Users/touko/OneDrive/株価分析/excel/株式データ/株式/"
+dirmerge = "D:/株取引/20221031_銘柄データ/"
 dirstorage = "C:/Users/touko/OneDrive/株価分析/excel/株式データ/完了/"
 file_list = glob.glob(dirdaily + '*.xlsx')
 stock_list = glob.glob(dirmerge + '*.xlsx')
@@ -45,7 +45,7 @@ for l in file_list:
     wb_market = openpyxl.load_workbook(l)
     print(l)
     sheetmarket = wb_market.worksheets[0]
-    for j in range(2, sheetmarket.max_row+1):
+    for j in range(2, sheetmarket.max_row-1):
         stock_code = sheetmarket.cell(row=j, column=2).value
         print(stock_code)
         book_search_list = glob.glob(dirmerge + str(stock_code) + '*.xlsx')
@@ -88,7 +88,7 @@ for l in file_list:
 
 #10.    excel-市場の全てのデータをコピーしたら、excel-市場を閉じる
     wb_market.close()
-    #    os.rename(dirdaily+'allkabu1.xlsx', dirdaily+d1+'_allkabu1.xlsx')
+#    os.rename(dirdaily+'allkabu1.xlsx', dirdaily+d1+'_allkabu1.xlsx')
 #    new_path = shutil.move(dirdaily+d1+'_allkabu1.xlsx', dirstorage)
 #12.    フォルダ-Aの全てのファイルを走査したら、プログラムを終了する
 print(t)

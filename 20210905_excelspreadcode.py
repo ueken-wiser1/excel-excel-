@@ -49,7 +49,7 @@ for l in file_list:
 
     sheetmarket = wb_market.worksheets[0]
 
-    for j in range(2, sheetmarket.max_row-1):
+    for j in range(2, sheetmarket.max_row+1):
 
         stock_code = sheetmarket.cell(row=j, column=2).value
         print(stock_code)
@@ -78,15 +78,15 @@ for l in file_list:
                 last_row = sheetcompany.max_row
                 last_column = sheetcompany.max_column
 
-                for k in range(1, sheetcompany.max_column+1):
-
+                for k in range(1, 51):
                         row_copy = sheetmarket.cell(row=j, column=k).value
-
                         sheetcompany.cell(row = last_row+1, column=k, value=row_copy)
-
                         k += 1
-                        wb_company.save(company_book)
-                        wb_company.close()
+
+                row_copy1 = sheetmarket.cell(row=j, column=999).value
+                sheetcompany.cell(row=last_row+1,column=999, value=row_copy1)
+                wb_company.save(company_book)
+                wb_company.close()
         j += 1
 
     wb_market.close()
@@ -96,4 +96,10 @@ print(t)
 t = datetime.datetime.now().time()
 print(t)
 
-winsound.Beep(500,50)  #ビープ音（500Hzの音を50msec流す）
+#稼働終了アナウンス
+winsound.Beep(500,100)  #ビープ音（500Hzの音を50msec流す）
+winsound.Beep(750,50)  #ビープ音（500Hzの音を50msec流す）
+winsound.Beep(500,100)  #ビープ音（500Hzの音を50msec流す）
+winsound.Beep(750,50)  #ビープ音（500Hzの音を50msec流す）
+winsound.Beep(750,50)  #ビープ音（500Hzの音を50msec流す）
+#------------お約束終了---末尾

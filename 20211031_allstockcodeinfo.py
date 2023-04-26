@@ -664,10 +664,21 @@ for code_number in range(100, 1000):
     write_column += 1
 
 #           名称
-    stock_name = soup.select('h3')[0]
-    print(stock_name)
-    sheet.cell(row=row_number, column=write_column).value = str(soup.select('h3')[0].get_text())
-    write_column += 1
+#    stock_name = soup.select('h3')[0]
+#    print(stock_name)
+#    sheet.cell(row=row_number, column=write_column).value = str(soup.select('h3')[0].get_text())
+#    write_column += 1
+
+    try:
+        stock_name = soup.select('h3')[0]
+    except IndexError as e:
+#        print('現在株価存在しない')
+        write_column += 1
+        pass
+    else:
+        print(stock_name)
+        sheet.cell(row=row_number, column=write_column).value = str(soup.select('h3')[0].get_text())
+        write_column += 1
 
 #           現在株価
     try:
@@ -1191,7 +1202,7 @@ for code_number in range(1000, 10000):
 
 #           信用倍率
     try:
-        credit_ratio = str(soup.select('td')[48])
+        credit_ratio = str(soup.select('span')[11])
     except IndexError as e:
 #        print('信用倍率存在しない')
         write_column += 1
