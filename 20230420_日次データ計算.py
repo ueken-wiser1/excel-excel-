@@ -59,6 +59,7 @@ for l in stock_list:
         sheetstock = wb.worksheets[0]
         lastrow_stockbook = sheetstock.max_row+1
         lastcolumn_stockbook = sheetstock.max_column
+        print("最終行は"+str(lastrow_stockbook))
         if sheetstock.cell(2,5).value is None or sheetstock.cell(2,5).value == '－':
                 sheetstock.cell(2,5).value = 0
                 print(sheetstock.cell(2,2).value + '_' + sheetstock.cell(2,3).value +'前日比の値がなかったので処理')
@@ -71,10 +72,12 @@ for l in stock_list:
                 sheetstock.cell(lastrow_stockbook-1,13).value = sheetstock.cell(lastrow_stockbook-2,4).value
                 sheetstock.cell(lastrow_stockbook-1,14).value = sheetstock.cell(lastrow_stockbook-2,4).value
                 sheetstock.cell(lastrow_stockbook-1,15).value = sheetstock.cell(lastrow_stockbook-2,4).value
-                print(sheetstock.cell(lastrow_stockbook-1,2).value + '_' + sheetstock.cell(lastrow_stockbook-1,3).value +'株価の値がなかったので処理')
-                if sheetstock.cell(lastrow_stockbook,3).value == '株探からのお知らせ':
-                        sheetstock.delete_rows(lastrow_stockbook)
-                        print(sheetstock.cell(lastrow_stockbook,2).value + '_' + sheetstock.cell(lastrow_stockbook,3).value +'上場廃止対象のため削除')           
+                print(sheetstock.cell(lastrow_stockbook-2,2).value + '_' + sheetstock.cell(lastrow_stockbook-2,3).value +'株価の値がなかったので処理')
+        if sheetstock.cell(lastrow_stockbook-1,3).value == '株探からのお知らせ':
+                sheetstock.delete_rows(lastrow_stockbook-1)
+                print(str(sheetstock.cell(lastrow_stockbook-2,2).value) + '_' + str(sheetstock.cell(lastrow_stockbook-2,3).value) +'上場廃止対象のため削除')
+                wb.save(l)
+                continue
         for m in range(3,lastrow_stockbook):
                 if sheetstock.cell(m,5).value is None or sheetstock.cell(m,5).value == '－':
                         sheetstock.cell(m,5).value = sheetstock.cell(m,4).value-sheetstock.cell(m-1,4).value
