@@ -33,11 +33,11 @@
 #13. 注目リストファイルの記載した終値と注目開始時の終値を比較
 #14. 比較割合が2%を越えたら、注目完了フラグを立てる
 #15. 注目完了フラグが立った場合、その行は赤いハッチングをかける
-#15. 注目リストファイルの注目完了フラグが立ったら、利益(最新記載終値-注目開始終値)を記載
-#16. 注目リストファイルの最新日付の列がn列目であった場合、利損(最新記載終値-注目開始終値)を記載し、注目完了フラグを立てる←強制終了
-#17. 強制終了した行の利益率が2%未満の場合、その行は青いハッチングをかける
-#17. 注目リストファイルの次の銘柄に移る
-#18. 注目リストファイルの最終行まで終わったら、次のファイルに移る
+#16. 注目リストファイルの注目完了フラグが立ったら、利益(最新記載終値-注目開始終値)を記載
+#17. 注目リストファイルの最新日付の列がn列目であった場合、利損(最新記載終値-注目開始終値)を記載し、注目完了フラグを立てる←強制終了
+#18. 強制終了した行の利益率が2%未満の場合、その行は青いハッチングをかける
+#19. 注目リストファイルの次の銘柄に移る
+#20. 注目リストファイルの最終行まで終わったら、次のファイルに移る
 '''
 folder_path: 注目銘柄リストがあるフォルダのパス
 excel_file: 注目銘柄リストのExcelファイル名
@@ -66,6 +66,7 @@ force_close_profit_loss: 強制終了時の利損（最新記載終値 - 注目�
 import os
 import glob
 from openpyxl import load_workbook
+from openpyxl.styles import PatternFill
 
 def find_security_code_row(ws, code):
     for row2 in range(2, ws.max_row + 1):
@@ -78,6 +79,10 @@ watch_list_folder = 'C:/Users/touko/OneDrive/株価分析/excel/株式データ/
 completed_folder = 'C:/Users/touko/OneDrive/株価分析/excel/株式データ/完了/'
 n_columns = 28
 
+plus_fill = PatternFill(patternType='solid', fgColor='ee82ee') #前日より値上がり
+minus_fill = PatternFill(patternType='solid', fgColor='00bfff') #前日より値下がり
+attained_fill = PatternFill(patternType='solid', fgColor='adff2f') #+2%目標を達成したら
+unattained_fill = PatternFill(patternType='solid', fgColor='696969') #+2%目標未達で、5日目を迎えたら
 for watch_list_file in glob.glob(os.path.join(watch_list_folder, '*.xlsx')):
     wb_watch_list = load_workbook(watch_list_file)
     ws_watch_list = wb_watch_list.active
@@ -90,9 +95,9 @@ for watch_list_file in glob.glob(os.path.join(watch_list_folder, '*.xlsx')):
     #print('対象日付は'+str(file_date))
 
     for row in range(2, last_row + 1):
-        completed_flag = ws_watch_list.cell(row=row, column=2).value
+        completed_flag = ws_watch_list.cell(row=row, column=1).value
         if completed_flag:
-            print(str(security_code)+'に完了フラグが立ちました')
+            print(str(security_code)+'には完了フラグが立っています。')
             continue
 
         security_code = ws_watch_list.cell(row=row, column=4).value
@@ -112,17 +117,32 @@ for watch_list_file in glob.glob(os.path.join(watch_list_folder, '*.xlsx')):
                 closing_price = ws_daily_data.cell(row=security_code_row, column=4).value
                 ws_watch_list.cell(row=row, column=last_col).value = closing_price
                 print(ws_watch_list.cell(row=row, column=last_col).value)
-
                 start_closing_price = ws_watch_list.cell(row=row, column=6).value
+                diff=ws_watch_list.cell(row=row, column=last_col).value - ws_watch_list.cell(row=row, column=last_col-1).value
+                if diff > 0:
+                    ws_watch_list.cell(row=row, column=last_col).fill = plus_fill
+                elif diff < 0:
+                    ws_watch_list.cell(row=row,column=last_col).fill = minus_fill
+
                 if closing_price is not None and start_closing_price is not None:
-                    ratio = (closing_price - start_closing_price) / start_closing_price
+                    ratio = ((closing_price - start_closing_price) / start_closing_price)*100
                     ws_watch_list.cell(row=row, column=8).value = ratio
-                    if ratio > 0.02:
+                    ws_watch_list.cell(row=row, column=7).value = closing_price - start_closing_price
+                    if ratio > 2:
                         ws_watch_list.cell(row=row, column=2).value = True
-                        ws_watch_list.cell(row=row, column=7).value = closing_price - start_closing_price
+                        for cell in ws_watch_list.iter_rows(min_row=row, max_row=row,values_only=True):
+                            for c in cell:
+                                c.fill = attained_fill
+                        profit = ws_watch_list.cell(row=row,column=last_col).value - ws_watch_list.cell(row=row,column=15).value
+                        print(str(ws_watch_list.cell(row=row,column=13).value)+"_"+str(ws_watch_list.cell(row=row,column=14).value)) + "は2%目標を達成しました。利益は"+str(profit)+"円です。"
+
                     elif last_col == n_columns:
                         ws_watch_list.cell(row=row, column=2).value = False
-                        ws_watch_list.cell(row=row, column=7).value = closing_price - start_closing_price
+                        for cell in ws_watch_list.iter_rows(min_row=row, max_row=row,values_only=True):
+                            for c in cell:
+                                c.fill = unattained_fill
+                        loss = ws_watch_list.cell(row=row,column=last_col).value - ws_watch_list.cell(row=row,column=15).value
+                        print(str(ws_watch_list.cell(row=row,column=13).value)+"_"+str(ws_watch_list.cell(row=row,column=14).value)) + "は目標を達成できず、終了しました。損失は"+str(loss)+"円です。"
             wb_daily_data.close()
 
     wb_watch_list.save(watch_list_file)
