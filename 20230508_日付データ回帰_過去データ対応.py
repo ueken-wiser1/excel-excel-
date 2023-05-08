@@ -22,7 +22,7 @@ d1 = d.strftime('%Y%m%d')
 #開始時間取得
 
 #対象フォルダ指定
-dirdaily = "C:/Users/touko/OneDrive/株価分析/excel/株式データ/"
+dirdaily = "C:/Users/touko/OneDrive/株価分析/excel/株式データ/完了/"
 dirmerge = "C:/Users/touko/OneDrive/株価分析/excel/株式データ/株式/"
 
 file_list = glob.glob(dirdaily + '*.xlsx')
