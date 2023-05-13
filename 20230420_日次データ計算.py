@@ -7,13 +7,10 @@ from openpyxl.styles import PatternFill
 import pandas as pd
 import numpy as np
 import bottleneck as bn
-import requests
-import bs4
-import time
+
 import datetime
 import glob
-import re
-import sys
+
 import winsound
 
 
@@ -257,7 +254,7 @@ for l in stock_list:
                                                                 sheetstock.cell(row=j,column=304).value = stockprice_20dmovestd[j-2]
                                                                 sheetstock.cell(row=j,column=305).value = stockprice_20dmovemean[j-2]+2*stockprice_20dmovestd[j-2]
                                                                 sheetstock.cell(row=j,column=306).value = stockprice_20dmovemean[j-2]-2*stockprice_20dmovestd[j-2]
-                                                                sheetstock.cell(j,325).value = 100-(((sheetstock.cell(j,4).value-sheetstock.cell(j,306).value)/(sheetstock.cell(j,305).value-sheetstock.cell(j,306).value))*100)
+                                                                sheetstock.cell(j,325).value = ((sheetstock.cell(j,305).value-sheetstock.cell(j,4).value)/(sheetstock.cell(j,305).value-sheetstock.cell(j,306).value))*100
                                                                 if sheetstock.cell(j,4).value - stockprice_20dmovemean[j-2] > 0:
                                                                         sheetstock.cell(row=j,column=307).value = "上側"
                                                                 else:
@@ -356,14 +353,19 @@ for l in stock_list:
                         if sheetstock.cell(k,319).value is not None:
                                 stockprice_9dEmovemean = bn.move_mean(macdscore, window=9)
                                 sheetstock.cell(row=k,column=320).value = stockprice_9dEmovemean[k-2]
-                                diffarray = np.append(macdscore, sheetstock.cell(row=k, column=320).value) #macdの配列格納
+                                sheetstock.cell(k,323).value = sheetstock.cell(k,319).value-sheetstock.cell(k,320).value
+                                diffarray = np.append(macdscore, sheetstock.cell(row=k, column=323).value) #macdの配列格納
                                 diffarray_max = bn.move_max(macdscore, window=9)
                                 diffarray_min = bn.move_min(macdscore, window=9)
-                                sheetstock.cell(k,326).value = ((sheetstock.cell(k,319).value-diffarray_min[k-2])/(diffarray_max[k-2]-diffarray_min[k-2]))*100
+                                macd = sheetstock.cell(k,323).value
+                                if macd >= 0:
+                                        sheetstock.cell(k,326).value = (1-(sheetstock.cell(k,323).value-diffarray_min[k-2])/(diffarray_max[k-2]-diffarray_min[k-2]))*100
+                                else:
+                                        sheetstock.cell(k,326).value =((sheetstock.cell(k,323).value-diffarray_min[k-2])/(diffarray_max[k-2]-diffarray_min[k-2]))*100
                 
         for m in range(2,lastrow_stockbook):
                 if sheetstock.cell(m,324).value is not None and sheetstock.cell(m,325).value is not None and sheetstock.cell(m,326).value is not None:
-                        sheetstock.cell(m, 327).value = sheetstock.cell(m,324).value + sheetstock.cell(m,325).value + sheetstock.cell(m,326).value
+                        sheetstock.cell(m, 327).value = 0.3*sheetstock.cell(m,324).value + 0.4*sheetstock.cell(m,325).value + 0.3*sheetstock.cell(m,326).value
 
         #シグナルラインの計算
         #print(stockprice_25dmovemean[9])

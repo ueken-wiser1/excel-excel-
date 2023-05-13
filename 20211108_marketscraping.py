@@ -1,13 +1,12 @@
-import os
+
 import openpyxl
 import requests
 import bs4
 import time
 import datetime
-import sys
-import sys
-from selenium import webdriver
-from selenium.webdriver.common.keys import Keys as keys
+
+
+
 import winsound
 
 #------------お約束開始---冒頭
@@ -312,7 +311,7 @@ for j in range(2, sheet.max_row + 1):
     
 #           業界
     try:
-        market = str(soup.select('a')[28])
+        market = str(soup.select('a')[28].get_text())
     except IndexError as e:
         print('業界存在しない')
         write_column = 36

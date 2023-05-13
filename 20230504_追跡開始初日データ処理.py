@@ -26,6 +26,7 @@ from openpyxl import load_workbook
 from openpyxl.styles import PatternFill
 import datetime
 import jpholiday
+import shutil
 
 t = datetime.datetime.now().time()
 d = datetime.datetime.now()
@@ -38,8 +39,10 @@ def find_security_code_row(ws, code):
             return row2
     raise ValueError(f"security code {code} not found")
 
-watch_list_folder = 'C:/Users/touko/OneDrive/株価分析/excel/株式データ/test/20230413/'
+watch_list_folder = 'C:/Users/touko/OneDrive/株価分析/excel/株式データ/追跡調査/0日目/'
 completed_folder = 'C:/Users/touko/OneDrive/株価分析/excel/株式データ/完了/'
+dividend = 'C:/Users/touko/OneDrive/株価分析/excel/株式データ/test/20230508/20230508_配当カレンダー.xlsx'
+dirstorage = 'C:/Users/touko/OneDrive/株価分析/excel/株式データ/追跡調査/1日目以降/'
 n_columns = 29
 plus_fill = PatternFill(patternType='solid', fgColor='ee82ee') #前日より値上がり
 minus_fill = PatternFill(patternType='solid', fgColor='00bfff') #前日より値下がり
@@ -54,6 +57,9 @@ for watch_list_file in glob.glob(os.path.join(watch_list_folder, '*.xlsx')):
     #print('最終行は'+str(last_row))
     last_col = ws_watch_list.max_column
     #print('最終列は'+str(last_col))
+    if ws_watch_list.cell(row=2, column=2).value is None:
+        print("この日は対象無し")
+        continue
     basis_date = ws_watch_list.cell(row=2, column=2).value + datetime.timedelta(days=1)
     print(basis_date)
 
@@ -68,7 +74,7 @@ for watch_list_file in glob.glob(os.path.join(watch_list_folder, '*.xlsx')):
             basis_date = basis_date + datetime.timedelta(days=1)
         # 指定日が祝日の場合
         elif jpholiday.is_holiday(basis_date):
-            print(f"{basis_date}は{str(jpholiday.holiday_name(basis_date))}です。")
+            print(f"{basis_date}は{str(jpholiday.is_holiday_name(basis_date))}です。")
             # 指定日を翌日に上書き
             basis_date = basis_date + datetime.timedelta(days=1)
         # 指定日が平日の場合
@@ -98,11 +104,11 @@ for watch_list_file in glob.glob(os.path.join(watch_list_folder, '*.xlsx')):
                 opening_price = ws_daily_data.cell(row=security_code_row, column=12).value
                 closing_price = ws_daily_data.cell(row=security_code_row, column=4).value
                 #print(opening_price)
-                ws_watch_list.cell(row=row, column=22).value = opening_price
+                ws_watch_list.cell(row=row, column=29).value = opening_price
                 ws_watch_list.cell(row=row, column=last_col+1).value = closing_price
                 #print(ws_watch_list.cell(row=row, column=last_col+1).value)
                 #print(ws_watch_list.cell(row=row, column=22).value)
-                diff=ws_watch_list.cell(row=row, column=last_col+1).value - ws_watch_list.cell(row=row, column=22).value
+                diff=ws_watch_list.cell(row=row, column=last_col+1).value - ws_watch_list.cell(row=row, column=29).value
                 if diff > 0:
                     ws_watch_list.cell(row=row, column=last_col+1).fill = plus_fill
                 elif diff < 0:
@@ -110,8 +116,8 @@ for watch_list_file in glob.glob(os.path.join(watch_list_folder, '*.xlsx')):
 
                 if closing_price is not None and opening_price is not None:
                     ratio = ((closing_price - opening_price) / opening_price)*100
-                    ws_watch_list.cell(row=row, column=24).value = ratio
-                    ws_watch_list.cell(row=row, column=23).value = closing_price - opening_price
+                    ws_watch_list.cell(row=row, column=31).value = ratio
+                    ws_watch_list.cell(row=row, column=30).value = closing_price - opening_price
                     if ratio > 2:
                         ws_watch_list.cell(row=row, column=1).value = True
                         for i in range(1, n_columns):
@@ -149,9 +155,14 @@ for watch_list_file in glob.glob(os.path.join(watch_list_folder, '*.xlsx')):
 
             wb_daily_data.close()
 
+    
+        
+
+
     wb_watch_list.save(watch_list_file)
     print(watch_list_file+'を保存しました')
     wb_watch_list.close()
+    shutil.move(watch_list_file, dirstorage)
 
 print(t)
 t = datetime.datetime.now().time()
