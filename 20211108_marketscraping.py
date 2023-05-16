@@ -35,7 +35,7 @@ t = datetime.datetime.now().time()
 
 
 for j in range(2, sheet.max_row + 1):
-    time.sleep(0.1)
+    time.sleep(0.2)
     kabutan_URL_base = 'http://kabutan.jp/stock/?code='
     kabutankessan_URL_base = 'http://kabutan.jp/stock/finance/?code='
     stock_code = sheet.cell(row=j, column=2).value
@@ -67,7 +67,7 @@ for j in range(2, sheet.max_row + 1):
 
 #           現在株価
     try:
-        stock_price = str(soup.select('td')[32])
+        stock_price = str(soup.select('td')[32].get_text())
     except IndexError as e:
         print('現在株価存在しない')
         write_column += 1
@@ -78,7 +78,7 @@ for j in range(2, sheet.max_row + 1):
 
 #           前日比
     try:
-        DoD = str(soup.select('dd')[0])
+        DoD = str(soup.select('dd')[0].get_text())
     except IndexError as e:
         print('前日比存在しない')
         write_column += 2
@@ -133,7 +133,7 @@ for j in range(2, sheet.max_row + 1):
 
 #           前日終値2
     try:
-        stock_price = str(soup.select('dd')[8].get_text())
+        stock_price = str(soup.select('dd')[8])
     except IndexError as e:
         print('前日終値存在しない')
         write_column += 2
@@ -155,7 +155,7 @@ for j in range(2, sheet.max_row + 1):
 
 #           始値
     try:
-        stock_price = str(soup.select('td')[23])
+        stock_price = str(soup.select('td')[23].get_text())
     except IndexError as e:
         print('始値存在しない')
         write_column += 1
@@ -166,7 +166,7 @@ for j in range(2, sheet.max_row + 1):
 
 #           高値
     try:
-        stock_price = str(soup.select('td')[26])
+        stock_price = str(soup.select('td')[26].get_text())
     except IndexError as e:
         print('高値存在しない')
         write_column += 1
@@ -177,7 +177,7 @@ for j in range(2, sheet.max_row + 1):
 
 #           安値
     try:
-        stock_price = str(soup.select('td')[29])
+        stock_price = str(soup.select('td')[29].get_text())
     except IndexError as e:
         print('安値存在しない')
         write_column += 1
@@ -188,7 +188,7 @@ for j in range(2, sheet.max_row + 1):
 
 #           終値
     try:
-        stock_price = str(soup.select('td')[32])
+        stock_price = str(soup.select('td')[32].get_text())
     except IndexError as e:
         print('終値存在しない')
         write_column += 1

@@ -42,7 +42,7 @@ def find_security_code_row(ws, code):
 watch_list_folder = 'C:/Users/touko/OneDrive/株価分析/excel/株式データ/追跡調査/0日目/'
 completed_folder = 'C:/Users/touko/OneDrive/株価分析/excel/株式データ/完了/'
 dividend = 'C:/Users/touko/OneDrive/株価分析/excel/株式データ/test/20230508/20230508_配当カレンダー.xlsx'
-dirstorage = 'C:/Users/touko/OneDrive/株価分析/excel/株式データ/追跡調査/1日目以降/'
+dirstorage = 'C:/Users/touko/OneDrive/株価分析/excel/株式データ/追跡調査/1日目/'
 n_columns = 29
 plus_fill = PatternFill(patternType='solid', fgColor='ee82ee') #前日より値上がり
 minus_fill = PatternFill(patternType='solid', fgColor='00bfff') #前日より値下がり
