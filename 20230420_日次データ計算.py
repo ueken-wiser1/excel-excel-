@@ -7,7 +7,7 @@ from openpyxl.styles import PatternFill
 import pandas as pd
 import numpy as np
 import bottleneck as bn
-
+import re
 import datetime
 import glob
 
@@ -126,6 +126,8 @@ for l in stock_list:
                 turnover = np.append(turnover, sheetstock.cell(row=i, column=11).value) #出来高の配列格納
                 #前日比のセルから、upprice, downpriceの配列格納をしたい。
                 #前日比マイナスの時はuppriceにゼロ、プラスの時はdownpriceにゼロを入れる形にする。
+
+                         
                 if int(sheetstock.cell(i, 5).value) >= 0:
                         upprice = np.append(upprice, sheetstock.cell(i, 5).value)
                         downprice = np.append(downprice, 0)
@@ -138,12 +140,12 @@ for l in stock_list:
 #                sheetstock.cell(row=i,column=25).value = sheetstock.cell(row=i,column=20).value * sheetstock.cell(row=i,column=11).value
                 #ローソク足の分類分け
 #陽線/陰線の場合分け
-                if sheetstock.cell(row=i, column=12).value > sheetstock.cell(row=i, column=15).value:
+                if int(sheetstock.cell(row=i, column=12).value) > int(sheetstock.cell(row=i, column=15).value):
 #                        print(str(i))
                         fill = PatternFill(patternType="solid", fgColor="00BFFF")
                         sheetstock.cell(row=i, column=228).value = '陰線'
                         sheetstock.cell(row=i, column=228).fill = fill
-                elif sheetstock.cell(row=i, column=15).value > sheetstock.cell(row=i, column=12).value:
+                elif int(sheetstock.cell(row=i, column=15).value) > int(sheetstock.cell(row=i, column=12).value):
                         fill = PatternFill(patternType="solid", fgColor="FF69B4")
                         sheetstock.cell(row=i,column=228).value = '陽線'
                         sheetstock.cell(row=i, column=228).fill = fill
@@ -153,11 +155,11 @@ for l in stock_list:
 
 
 #実体の長さ
-                candle = abs(sheetstock.cell(row=i,column=12).value - sheetstock.cell(row=i, column=15).value)
+                candle = abs(int(sheetstock.cell(row=i,column=12).value) - int(sheetstock.cell(row=i, column=15).value))
 #陰線の場合
                 if sheetstock.cell(row=i, column=228).value == '陰線':
-                        blue_beard_over = sheetstock.cell(row=i, column=13).value - sheetstock.cell(row=i, column=12).value
-                        blue_beard_under = sheetstock.cell(row=i, column=15).value - sheetstock.cell(row=i, column=14).value
+                        blue_beard_over = int(sheetstock.cell(row=i, column=13).value) - int(sheetstock.cell(row=i, column=12).value)
+                        blue_beard_under = int(sheetstock.cell(row=i, column=15).value) - int(sheetstock.cell(row=i, column=14).value)
                         if candle > blue_beard_over and candle > blue_beard_under:
                                 sheetstock.cell(row=i, column=227).value = '大'
                         elif candle >= blue_beard_over and candle <= blue_beard_under:
@@ -170,8 +172,8 @@ for l in stock_list:
                                 sheetstock.cell(row=i, column=227).value = '異常値'
 #陽線の場合
                 elif sheetstock.cell(row=i, column=228).value == '陽線':
-                        red_beard_over = sheetstock.cell(row=i, column=13).value - sheetstock.cell(row=i, column=15).value
-                        red_beard_under = sheetstock.cell(row=i, column=12).value - sheetstock.cell(row=i, column=14).value
+                        red_beard_over = int(sheetstock.cell(row=i, column=13).value) - int(sheetstock.cell(row=i, column=15).value)
+                        red_beard_under = int(sheetstock.cell(row=i, column=12).value) - int(sheetstock.cell(row=i, column=14).value)
                         if candle > red_beard_over and candle > red_beard_under:
                                 sheetstock.cell(row=i, column=227).value = '大'
                         elif candle >= red_beard_over and candle <= red_beard_under:
@@ -365,7 +367,7 @@ for l in stock_list:
                 
         for m in range(2,lastrow_stockbook):
                 if sheetstock.cell(m,324).value is not None and sheetstock.cell(m,325).value is not None and sheetstock.cell(m,326).value is not None:
-                        sheetstock.cell(m, 327).value = 0.3*sheetstock.cell(m,324).value + 0.4*sheetstock.cell(m,325).value + 0.3*sheetstock.cell(m,326).value
+                        sheetstock.cell(m, 327).value = 0.5*sheetstock.cell(m,324).value + 0.2*sheetstock.cell(m,325).value + 0.3*sheetstock.cell(m,326).value
 
         #シグナルラインの計算
         #print(stockprice_25dmovemean[9])
