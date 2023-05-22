@@ -367,7 +367,7 @@ for l in stock_list:
                 
         for m in range(2,lastrow_stockbook):
                 if sheetstock.cell(m,324).value is not None and sheetstock.cell(m,325).value is not None and sheetstock.cell(m,326).value is not None:
-                        sheetstock.cell(m, 327).value = 0.5*sheetstock.cell(m,324).value + 0.2*sheetstock.cell(m,325).value + 0.3*sheetstock.cell(m,326).value
+                        sheetstock.cell(m, 327).value = 0.59*sheetstock.cell(m,324).value + 0.16*sheetstock.cell(m,325).value + 0.25*sheetstock.cell(m,326).value
 
         #シグナルラインの計算
         #print(stockprice_25dmovemean[9])

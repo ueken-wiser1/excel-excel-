@@ -12,7 +12,7 @@ d = datetime.datetime.now()
 d1 = d.strftime('%Y%m%d')
 wb_record_list = load_workbook('C:/Users/touko/OneDrive/株価分析/excel/株式データ/test/20230516/20230517_重み付け記録.xlsx')
 ws_record_list = wb_record_list.active
-watch_list_folder = 'C:/Users/touko/OneDrive/株価分析/excel/株式データ/test/20230516/OSCI/'
+watch_list_folder = 'C:/Users/touko/OneDrive/株価分析/excel/株式データ/追跡調査/調査期間満了/'
 file_list = glob.glob(watch_list_folder+'*.xlsx')
 
 # 多項式

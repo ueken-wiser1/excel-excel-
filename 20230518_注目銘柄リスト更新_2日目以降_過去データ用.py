@@ -38,7 +38,7 @@ def find_date_row(ws, date):
 
 watch_list_folder = 'C:/Users/touko/OneDrive/株価分析/excel/株式データ/追跡調査/過去/2日目以降/'
 stock_folder = 'C:/Users/touko/OneDrive/株価分析/excel/株式データ/株式/'
-dirstorage = 'C:/Users/touko/OneDrive/株価分析/excel/株式データ/test/20230518/期間満了/'
+dirstorage = 'C:/Users/touko/OneDrive/株価分析/excel/株式データ/追跡調査/調査期間満了/'
 n_columns = 43
 plus_fill = PatternFill(patternType='solid', fgColor='ee82ee') #前日より値上がり
 minus_fill = PatternFill(patternType='solid', fgColor='00bfff') #前日より値下がり
@@ -91,9 +91,10 @@ for l in file_list:
                 
                 start_price = ws_watch_list.cell(row=i, column=29).value
 
-                if ws_stock_data.cell(row=date_row, column=1).value is None:
+                if ws_stock_data.cell(row=j, column=1).value is None:
                     print("証券コード："+str(stock_code)+"は上場廃止になったかも。")
                     continue
+                
                 diff=closing_price - ws_watch_list.cell(row=i, column=k-1).value
                 if diff > 0:
                     ws_watch_list.cell(row=i, column=k).fill = plus_fill

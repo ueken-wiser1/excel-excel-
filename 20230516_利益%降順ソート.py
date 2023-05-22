@@ -10,7 +10,7 @@ import pandas as pd
 t = datetime.datetime.now().time()
 
 # Excelファイルを読み込みます
-watch_list_folder = 'C:/Users/touko/OneDrive/株価分析/excel/株式データ/test/20230516/OSCI/'
+watch_list_folder = 'C:/Users/touko/OneDrive/株価分析/excel/株式データ/追跡調査/調査期間満了/'
 file_list = glob.glob(watch_list_folder+'*.xlsx')
 sorted_data = []
 for l in file_list:

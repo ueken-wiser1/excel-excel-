@@ -40,8 +40,6 @@ watch_list_folder = 'C:/Users/touko/OneDrive/株価分析/excel/株式データ/
 stock_folder = 'C:/Users/touko/OneDrive/株価分析/excel/株式データ/株式/'
 dirstorage = 'C:/Users/touko/OneDrive/株価分析/excel/株式データ/追跡調査/過去/2日目以降/'
 
-n_columns = 43
-
 plus_fill = PatternFill(patternType='solid', fgColor='ee82ee') #前日より値上がり
 minus_fill = PatternFill(patternType='solid', fgColor='00bfff') #前日より値下がり
 attained_fill = PatternFill(patternType='solid', fgColor='adff2f') #+2%目標を達成したら
