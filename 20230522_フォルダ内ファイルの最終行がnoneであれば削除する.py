@@ -3,7 +3,7 @@ from openpyxl import load_workbook
 import glob
 
 # フォルダ内のExcelファイルを取得
-folder_path = 'C:/Users/touko/OneDrive/株価分析/excel/株式データ/完了/'
+folder_path = 'C:/Users/touko/OneDrive/株価分析/excel/株式データ/'
 excel_files = glob.glob(os.path.join(folder_path, '*.xlsx'))
 
 # 各Excelファイルの処理
