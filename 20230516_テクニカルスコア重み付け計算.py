@@ -10,7 +10,7 @@ from openpyxl import load_workbook
 t = datetime.datetime.now().time()
 d = datetime.datetime.now()
 d1 = d.strftime('%Y%m%d')
-wb_record_list = load_workbook('C:/Users/touko/OneDrive/株価分析/excel/株式データ/test/20230516/20230517_重み付け記録.xlsx')
+wb_record_list = load_workbook('C:/Users/touko/OneDrive/株価分析/excel/株式データ/test/20230521/20230524_重み付け記録.xlsx')
 ws_record_list = wb_record_list.active
 watch_list_folder = 'C:/Users/touko/OneDrive/株価分析/excel/株式データ/追跡調査/調査期間満了/'
 file_list = glob.glob(watch_list_folder+'*.xlsx')
@@ -56,4 +56,4 @@ for l in file_list:
     ws_record_list.cell(lastrow_rec+1,3).value=b_optimized
     ws_record_list.cell(lastrow_rec+1,4).value=c_optimized
 
-wb_record_list.save('C:/Users/touko/OneDrive/株価分析/excel/株式データ/test/20230516/20230517_重み付け記録.xlsx')
+wb_record_list.save('C:/Users/touko/OneDrive/株価分析/excel/株式データ/test/20230521/20230524_重み付け記録.xlsx')

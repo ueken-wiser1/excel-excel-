@@ -12,7 +12,7 @@ d1 = d.strftime('%Y%m%d')
 #開始時間取得
 
 #対象フォルダ指定
-dirdaily = "C:/Users/touko/OneDrive/株価分析/excel/株式データ/test/20230519/過去データ/"
+dirdaily = "C:/Users/touko/OneDrive/株価分析/excel/株式データ/test/20230524/"
 dirstorage = "C:/Users/touko/OneDrive/株価分析/excel/株式データ/追跡調査/過去/1日目/"
 dividend_data ="C:/Users/touko/OneDrive/株価分析/excel/株式データ/test/20230508/20230508_配当カレンダー.xlsx"
 

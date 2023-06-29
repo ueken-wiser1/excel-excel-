@@ -115,8 +115,16 @@ for l in file_list:
                                 sheetsim.cell(k,12).value = sheetdaily.cell(i,32).value/2 #配当金
                                 sheetsim.cell(k,13).value = sheetdividend.cell(j,3).value #配当月
                         elif str(sheetsim.cell(k,4).value) == str(sheetdividend.cell(j,1).value) and sheetdividend.cell(j,4).value is False:
-                            sheetsim.cell(k,12).value = sheetdaily.cell(i,32).value #配当金
-                            sheetsim.cell(k,13).value = sheetdividend.cell(j,3).value #配当月
+                            if sheetdaily.cell(i,32).value is not None and isinstance(sheetdaily.cell(i,32).value, str):
+                                sheetsim.cell(k,12).value = 0 #配当金
+                                continue
+                            elif sheetdaily.cell(i,32).value is None:
+                                sheetsim.cell(k,12).value = 0 #配当金
+                                continue
+                            else:
+                                sheetsim.cell(k,12).value = sheetdaily.cell(i,32).value #配当金
+                                sheetsim.cell(k,13).value = sheetdividend.cell(j,3).value #配当月
+
 
                     sheetsim.cell(k,14).value = sheetdaily.cell(i,23).value #買残
                     sheetsim.cell(k,15).value = sheetdaily.cell(i,22).value #売残

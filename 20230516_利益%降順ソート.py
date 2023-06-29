@@ -29,7 +29,10 @@ for l in file_list:
     ws_watch_list = wb_watch_list.active
     last_row = ws_watch_list.max_row
     for i in range(2,last_row+1):
-        ws_watch_list.cell(i,26).value = (last_row-i)/last_row*100
+        if ws_watch_list.cell(i,31).value is None:
+            ws_watch_list.cell(i,31).value =0
+
+        ws_watch_list.cell(i,26).value = (last_row-i)/last_row*100*ws_watch_list.cell(i,31).value
     wb_watch_list.save(l)
 
 
