@@ -129,40 +129,45 @@ for n in range(1,13):
         n_before       = 8*(n-2)+2
         lastrow = sheet01.max_row
         for l in range(2, lastrow+1):
-            code_now    = sheet01.cell(l,n_now).value
+            code_before    = sheet01.cell(l,n_before).value
+            if code_before is None:
+                continue
             flag = False
-            
+            a = 1
             for m in range(2, lastrow+1):
-                code_before = sheet01.cell(m,n_before).value
-                if code_now != code_before:
+                code_now = sheet01.cell(m,n_now).value
+                if flag == True:
                     continue
                 else:
-                    flag = True
-            print(code_now+'は直前に取得した銘柄と一致しました。')
-        a = 1
-        if flag == False and code_now is not None:
-            #print(flag)
-            kabutan_URL_base = 'http://kabutan.jp/stock/?code='
-            kabutan_URL = kabutan_URL_base + str(code_now)
-            res = requests.get(kabutan_URL)
-            res.raise_for_status()
-            soup = bs4.BeautifulSoup(res.text, 'html.parser')
-            name_elem = soup.select('span')[8].text
-            market_elem = soup.select('span')[11].text
-            price_elem = soup.select('td')[32].text
-            down_elem = soup.select('span')[14].text
-            downper_elem = soup.select('span')[15].text
-            amount = soup.select('td')[35].text
-            #取得したデータをexcelに書き込む。
-            sheet01.cell(lastrow+a, n_now).value = code_now
-            sheet01.cell(lastrow+a, n_now+1).value = name_elem
-            sheet01.cell(lastrow+a, n_now+2).value =market_elem
-            sheet01.cell(lastrow+a, n_now+3).value =price_elem
-            sheet01.cell(lastrow+a, n_now+4).value =down_elem
-            sheet01.cell(lastrow+a, n_now+5).value =downper_elem
-            sheet01.cell(lastrow+a, n_now+6).value =amount
-            a += 1
-            time.sleep(1)
+                    if code_now != code_before:
+                        continue
+                    else:
+                        flag = True
+                        print(code_now+'は直前に取得した銘柄と一致しました。')
+        
+                if flag == False and code_before is not None:
+                    #print(flag)
+                    kabutan_URL_base = 'http://kabutan.jp/stock/?code='
+                    kabutan_URL = kabutan_URL_base + str(code_before)
+                    res = requests.get(kabutan_URL)
+                    res.raise_for_status()
+                    soup = bs4.BeautifulSoup(res.text, 'html.parser')
+                    name_elem = soup.select('span')[8].text
+                    market_elem = soup.select('span')[11].text
+                    price_elem = soup.select('td')[32].text
+                    down_elem = soup.select('span')[14].text
+                    downper_elem = soup.select('span')[15].text
+                    amount = soup.select('td')[35].text
+                    #取得したデータをexcelに書き込む。
+                    sheet01.cell(lastrow+a, n_now).value = code_before
+                    sheet01.cell(lastrow+a, n_now+1).value = name_elem
+                    sheet01.cell(lastrow+a, n_now+2).value =market_elem
+                    sheet01.cell(lastrow+a, n_now+3).value =price_elem
+                    sheet01.cell(lastrow+a, n_now+4).value =down_elem
+                    sheet01.cell(lastrow+a, n_now+5).value =downper_elem
+                    sheet01.cell(lastrow+a, n_now+6).value =amount
+                    a += 1
+                    time.sleep(1)
     print(n)
     time.sleep(300)
 wb.save(dir+d+"_値下がりランキング-後場.xlsx")
