@@ -80,108 +80,102 @@ for n in range(1,13):
     rows = soup.find_all('tr')
     time.sleep(1)
 #ランキングデータの必要なデータ位置を定義。
+    if n == 1: 
+        i = 2
+        n_now       = 8*(n-1)+2
+        n_before    = 8*(n-2)+2
 
-    i = 2
-    n_now       = 8*(n-1)+2
-    n_before    = 8*(n-2)+2
+        #日時、列名の記載。
+        t = datetime.datetime.now().time()
+        sheet01.cell(1,n_now-1).value = t
+        sheet01.cell(1,n_now+0).value = "コード"
+        sheet01.cell(1,n_now+1).value = "会社名"
+        sheet01.cell(1,n_now+2).value = "市場"
+        sheet01.cell(1,n_now+3).value = "株価"
+        sheet01.cell(1,n_now+4).value = "値下幅"
+        sheet01.cell(1,n_now+5).value = "値下率"
+        sheet01.cell(1,n_now+6).value = "出来高"
 
-    #日時、列名の記載。
-    t = datetime.datetime.now().time()
-    sheet01.cell(1,n_now-1).value = t
-    sheet01.cell(1,n_now+0).value = "コード"
-    sheet01.cell(1,n_now+1).value = "会社名"
-    sheet01.cell(1,n_now+2).value = "市場"
-    sheet01.cell(1,n_now+3).value = "株価"
-    sheet01.cell(1,n_now+4).value = "値下幅"
-    sheet01.cell(1,n_now+5).value = "値下率"
-    sheet01.cell(1,n_now+6).value = "出来高"
+        #ランキングデータの取得
+        for row_index in row_indices:
+            if len(rows) > row_index:
+                row = rows[row_index]
+                cells = row.find_all(['td', 'th'])
+                k = 0
+                for cell_index in cell_indices:
+                    if len(cells) > cell_index:
 
-    #ランキングデータの取得
-    for row_index in row_indices:
-        if len(rows) > row_index:
-            row = rows[row_index]
-            cells = row.find_all(['td', 'th'])
-            k = 0
-            for cell_index in cell_indices:
-                if len(cells) > cell_index:
+                        cell = cells[cell_index]
+                        sheet01.cell(i, n_now+k).value = cell.text
+                        
+                        #print(row0)
+                        #print(column)
+                        #print(cell.text)
+                        j += 1
+                        k += 1
+                    #print(sheet01.cell(row_index,2).value)
+                i += 1
+    #nが2以上なら、その前のランキングデータがあるから、前のデータを参照して、今のデータになり銘柄についてデータを個別処理する。
+        #for k in range(2,15):
+            #print(sheet01.cell(k, n_now).value)
+    #    print(n)
+        #print(sheet01.cell(2,10).value)
+        #code_nowを上から順番に取り出す。
+        #取り出したcode_nowをcode_beforeと比較する。
+        #もしcode_beforeがnone、またはcode_now=code_beforeであれば、そのループはスキップ。：code_beforeが終わった or code_nowと同じコードがcode_beforeにあったから。
+        #もし、code_beforeがnoneでなく、かつ全てのcode_beforeとcode_nowが一致しなければ、それはそのcode_nowは新規に出現したコードであるから、それは記録する。　
+        if n >= 2:
+            not_in_now =[]
+            lastrow = sheet01.max_row
+            #print(lastrow)
+            for l in range(2, lastrow+1):
 
-                    cell = cells[cell_index]
-                    sheet01.cell(i, n_now+k).value = cell.text
-                    
-                    #print(row0)
-                    #print(column)
-                    #print(cell.text)
-                    j += 1
-                    k += 1
-                #print(sheet01.cell(row_index,2).value)
-            i += 1
-#nが2以上なら、その前のランキングデータがあるから、前のデータを参照して、今のデータになり銘柄についてデータを個別処理する。
-#    for k in range(2,15):
-#        print(sheet01.cell(k, n_now).value)
-#    print(n)
-    #print(sheet01.cell(2,10).value)
-    '''
-    if n >= 2:
-        not_in_now =[]
-        lastrow = sheet01.max_row
-        #print(lastrow)
-        for l in range(2, lastrow+1):
+                code_before = sheet01.cell(l,n_before).value
+                code_now    = sheet01.cell(l,n_now).value
+                #print(code_before)
+                #print(code_now)
+                #print(n_now)
+                a = 1
+                flag = 0
+                for m in range(2, lastrow+1):
+                    if code_before == None :
+                        continue
+                    else:
+                        print(str(sheet01.cell(m,n_now).value) + '=' + str(sheet01.cell(m,n_before).value))
+                        if code_now == sheet01.cell(m, n_before).value:
+                            flag = 1
+                            continue
+                        else:
+                            nocode = code_now
+                            flag = 2
+                
+                if flag == 2 and nocode is not None:
+                    #print(flag)
+                    kabutan_URL_base = 'http://kabutan.jp/stock/?code='
+                    kabutan_URL = kabutan_URL_base + str(code_now)
+                    res = requests.get(kabutan_URL)
+                    res.raise_for_status()
+                    soup = bs4.BeautifulSoup(res.text, 'html.parser')
+                    name_elem = soup.select('span')[8].text
+                    market_elem = soup.select('span')[11].text
+                    price_elem = soup.select('td')[32].text
+                    down_elem = soup.select('span')[14].text
+                    downper_elem = soup.select('span')[15].text
+                    amount = soup.select('td')[35].text
+                    #取得したデータをexcelに書き込む。
+                    sheet01.cell(lastrow+a, n_now).value = code_now
+                    sheet01.cell(lastrow+a, n_now+1).value = name_elem
+                    sheet01.cell(lastrow+a, n_now+2).value =market_elem
+                    sheet01.cell(lastrow+a, n_now+3).value =price_elem
+                    sheet01.cell(lastrow+a, n_now+4).value =down_elem
+                    sheet01.cell(lastrow+a, n_now+5).value =downper_elem
+                    sheet01.cell(lastrow+a, n_now+6).value =amount
+                    a += 1
+                    time.sleep(1)
 
-            code_before = sheet01.cell(l,n_before).value
-            code_now    = sheet01.cell(l,n_now).value
-            #print(code_before)
-            #print(code_now)
-            #print(n_now)
-            values_before    = [sheet01.cell(row=i, column=n_before).value for i in range(2, lastrow + 1)]
-            values_now       = [sheet01.cell(row=i, column=n_now).value for i in range(2, lastrow + 1)]
-            #print(values_before)
-            #print(values_now)
-            #print(n)
-            #print(sheet01.cell(2,10).value)
-
-        for i, value_before in enumerate(values_before, start=2):
-            #values_nowにvalues_beforeの要素がない場合の処理を開始。
-            if value_before not in values_now:
-                not_in_now.append(value_before)
-            a = 1
-            lastrow01 = sheet01.max_row
-            print(not_in_now)
-            for item in not_in_now:
-                #株探ページをスクレイピングして欲しい情報を取り出す。
-                kabutan_URL_base = 'http://kabutan.jp/stock/?code='
-                kabutan_URL = kabutan_URL_base + str(item)
-                res = requests.get(kabutan_URL)
-                res.raise_for_status()
-                soup = bs4.BeautifulSoup(res.text, 'html.parser')
-                name_elem = soup.select('span')[8].text
-                market_elem = soup.select('span')[11].text
-                price_elem = soup.select('td')[32].text
-                down_elem = soup.select('span')[14].text
-                downper_elem = soup.select('span')[15].text
-                amount = soup.select('td')[35].text
-                #取得したデータをexcelに書き込む。
-                sheet01.cell(lastrow01+a, n_now).value = item
-                sheet01.cell(lastrow01+a, n_now+1).value = name_elem
-                sheet01.cell(lastrow01+a, n_now+2).value =market_elem
-                sheet01.cell(lastrow01+a, n_now+3).value =price_elem
-                sheet01.cell(lastrow01+a, n_now+4).value =down_elem
-                sheet01.cell(lastrow01+a, n_now+5).value =downper_elem
-                sheet01.cell(lastrow01+a, n_now+6).value =amount
-                #print(item)
-                #リストの次の項目に移る場合、加算行を+1する。
-                a+=1
-                time.sleep(1)
-        else:
-            pass
-
-    #print("nは1でしたよ")
-
-
-                    
-    print(n)
-    n += 1
-    #time.sleep(60)
-    '''
+        print(n)
+        n += 1
+        #time.sleep(60)
 wb.save(dir+d+"_値下がりランキング.xlsx")
 
 #データの集約プロセス
@@ -205,8 +199,9 @@ for col in range(start_col, end_col + 1, 8):
     column_values = [sheet01.cell(row=row, column=col).value for row in range(start_row, end_row + 1)]
     target_list.append(column_values)
 
+print(target_list)
 # パラメータに対応するリストを昇順に並べる
-sorted_list = sorted(target_list, key=lambda x: x[0])  # ここでは1行目の値で昇順に並べる例
+sorted_list = sorted(target_list, key=lambda x: x[1])  # ここでは1行目の値で昇順に並べる例
 
 # 結果を出力
 for i, values in enumerate(sorted_list):
