@@ -79,7 +79,7 @@ for l in file_list:
                     for k in range(1,lastcolumn):
                         row_copy = sheetstock.cell(j,k).value
                         sheetdaily.cell(i,k,value=row_copy)
-                        print(row_copy)
+#                        print(row_copy)
                 else:
                         #print('何もしない')
                     pass
