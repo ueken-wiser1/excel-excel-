@@ -15,19 +15,19 @@ t = datetime.datetime.now().time()
 
 '''
 目的
-前場開始直後の値下がり率ランキングの推移から、反発利益が得られそうかの感触を見る。
+前場開始直後の値上がり率ランキングの推移から、利益が得られそうかの感触を見る。
 
 仕様
-株探ページから値下がり率ランキングを取得。
+株探ページから値上がり率ランキングを取得。
 9:20-10:20に実施←これはタスクスケジューラで指定。
 値下がり率ランキングページの50件を取得し、コード、銘柄名、株価、前日比、前日比％、出来高を合わせて記録。
 日経も併せて記録。株価と前日比、前日比％のみ。
-5分後、値下がり率ランキングページの50件を取得し、同様の記録。
+5分後、値上がり率ランキングページの50件を取得し、同様の記録。
 前のランキングリストのコードを、今のランキングリストでスキャン。
 ヒットすれば、パス。ヒットしなければ、コードから株探銘柄ページを取得し、同様の数字を記録。
 前のランキングリストのコードを全てスキャンした今のランキングリストを新たなランキングリストとして、次のランキング取得時の参照とする。
-重要な数字は値下がり率だから、順位自体はそこまで重要でない。
-全てのリストが出来たら、新しいシートに、9:00段階のランキングを値下がり率と併せて記録する。次の行には出来高を記録する。
+重要な数字は値上がり率だから、順位自体はそこまで重要でない。
+全てのリストが出来たら、新しいシートに、9:00段階のランキングを値上がり率と併せて記録する。次の行には出来高を記録する。
 そのランキングの上からコードを参照して、次のランキングリストをスキャン。
 ヒットすれば、その時の値下がり率、出来高を記録し、次のランキングリストに移る。
 9:00段階のランキングリストを全て終わったら、次のランキングリストに移り、コードを上から参照し、前のランキングリストでスキャン。
@@ -43,13 +43,13 @@ t = datetime.datetime.now().time()
 #------------プログラム本文---ここから
 
 #ファイル準備-指定のフォルダにワークブックを作成。シートとして、データを入力する"data"とデータから結果を導く"summary"のシートを作る。
-dir = "C:/Users/touko/OneDrive/株価分析/excel/株式データ/値下がりランキング調査/前場/"
+dir = "C:/Users/touko/OneDrive/株価分析/excel/株式データ/値上がりランキング調査/後場/"
 wb = Workbook()
 sheet01 = wb.create_sheet(title="data")
 sheet02 = wb.create_sheet(title="summary")
 today = datetime.date.today()
 d = today.strftime('%Y%m%d')
-wb.save(dir+d+"_値下がりランキング-前場.xlsx")
+wb.save(dir+d+"_値上がりランキング-後場.xlsx")
 #記録開始行、列を定義。
 i = 2
 j = 1
@@ -63,7 +63,7 @@ cell_indices = [0, 1, 2, 5, 7, 8, 9]
 #繰り返し　9:00ー10:00の13回
 for n in range(1,13):
 
-    kabutan_ranking_URL = 'https://kabutan.jp/warning/?mode=2_2'
+    kabutan_ranking_URL = 'https://kabutan.jp/warning/?mode=2_1'
     res = requests.get(kabutan_ranking_URL)
     res.raise_for_status()
     soup = bs4.BeautifulSoup(res.text, 'html.parser')
@@ -79,8 +79,8 @@ for n in range(1,13):
     sheet01.cell(1,n_now+1).value = "会社名"
     sheet01.cell(1,n_now+2).value = "市場"
     sheet01.cell(1,n_now+3).value = "株価"
-    sheet01.cell(1,n_now+4).value = "値下幅"
-    sheet01.cell(1,n_now+5).value = "値下率"
+    sheet01.cell(1,n_now+4).value = "値上幅"
+    sheet01.cell(1,n_now+5).value = "値上率"
     sheet01.cell(1,n_now+6).value = "出来高"
 #ランキングデータの必要なデータ位置を定義。
     if n == 1: 
@@ -128,7 +128,6 @@ for n in range(1,13):
         
         n_before       = 8*(n-2)+2
         lastrow = sheet01.max_row
-        #print(lastrow)
         for l in range(2, lastrow+1):
             code_before    = sheet01.cell(l,n_before).value
             if code_before is None:
@@ -140,13 +139,12 @@ for n in range(1,13):
                 if flag == True:
                     continue
                 else:
-
-                    if code_before != code_now:
+                    if code_now != code_before:
                         continue
                     else:
                         flag = True
                         print(code_now+'は直前に取得した銘柄と一致しました。')
-                
+        
                 if flag == False and code_before is not None:
                     #print(flag)
                     kabutan_URL_base = 'http://kabutan.jp/stock/?code='
@@ -157,22 +155,22 @@ for n in range(1,13):
                     name_elem = soup.select('span')[8].text
                     market_elem = soup.select('span')[11].text
                     price_elem = soup.select('td')[32].text
-                    down_elem = soup.select('span')[14].text
-                    downper_elem = soup.select('span')[15].text
+                    up_elem = soup.select('span')[14].text
+                    upper_elem = soup.select('span')[15].text
                     amount = soup.select('td')[35].text
                     #取得したデータをexcelに書き込む。
                     sheet01.cell(lastrow+a, n_now).value = code_before
                     sheet01.cell(lastrow+a, n_now+1).value = name_elem
                     sheet01.cell(lastrow+a, n_now+2).value =market_elem
                     sheet01.cell(lastrow+a, n_now+3).value =price_elem
-                    sheet01.cell(lastrow+a, n_now+4).value =down_elem
-                    sheet01.cell(lastrow+a, n_now+5).value =downper_elem
+                    sheet01.cell(lastrow+a, n_now+4).value =up_elem
+                    sheet01.cell(lastrow+a, n_now+5).value =upper_elem
                     sheet01.cell(lastrow+a, n_now+6).value =amount
                     a += 1
                     time.sleep(1)
     print(n)
     time.sleep(300)
-wb.save(dir+d+"_値下がりランキング-前場.xlsx")
+wb.save(dir+d+"_値上がりランキング-後場.xlsx")
 
 
 #------------プログラム本文---ここまで
