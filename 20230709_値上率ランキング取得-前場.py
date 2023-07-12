@@ -53,8 +53,6 @@ wb.save(dir+d+"_値上がりランキング-前場.xlsx")
 #記録開始行、列を定義。
 i = 2
 j = 1
-k = 2
-
 #株探ページから、ランキングデータをスクレイピングする。
 #ランキングデータの必要なデータ位置を定義。
 row_indices = list(range(5,20))
@@ -97,6 +95,7 @@ for n in range(1,13):
 
                         cell = cells[cell_index]
                         sheet01.cell(i, n_now+k).value = cell.text
+                        print(sheet01.cell(i, n_now+k).value)
                         j += 1
                         k += 1
                 i += 1
@@ -121,8 +120,7 @@ for n in range(1,13):
 
                         cell = cells[cell_index]
                         sheet01.cell(i, n_now+k).value = cell.text
-                        print(n_now+k)
-                        j += 1
+                        print(sheet01.cell(i,n_now+k).value)
                         k += 1
                 i += 1
         
@@ -131,47 +129,56 @@ for n in range(1,13):
         #print(lastrow)
         for l in range(2, lastrow+1):
             code_before    = sheet01.cell(l,n_before).value
-            if code_before is None:
-                continue
             flag = False
             a = 1
+            if code_before is None:
+                continue
+            
             for m in range(2, lastrow+1):
                 code_now = sheet01.cell(m,n_now).value
+                if code_now is None:
+                    continue
                 if flag == True:
+                    print(code_before)
+                    print(code_before+'は直前に取得した銘柄と一致しています。')
                     continue
                 else:
 
-                    if code_before != code_now:
-                        continue
-                    else:
+                    if code_before == code_now:
                         flag = True
-                        print(code_now+'は直前に取得した銘柄と一致しました。')
+                        print(code_before+'は直前に取得した銘柄と一致しました。')
+                        
+                    else:
+                        continue
                 
-                if flag == False and code_before is not None:
-                    #print(flag)
-                    kabutan_URL_base = 'http://kabutan.jp/stock/?code='
-                    kabutan_URL = kabutan_URL_base + str(code_before)
-                    res = requests.get(kabutan_URL)
-                    res.raise_for_status()
-                    soup = bs4.BeautifulSoup(res.text, 'html.parser')
-                    name_elem = soup.select('span')[8].text
-                    market_elem = soup.select('span')[11].text
-                    price_elem = soup.select('td')[32].text
-                    up_elem = soup.select('span')[14].text
-                    upper_elem = soup.select('span')[15].text
-                    amount = soup.select('td')[35].text
-                    #取得したデータをexcelに書き込む。
-                    sheet01.cell(lastrow+a, n_now).value = code_before
-                    sheet01.cell(lastrow+a, n_now+1).value = name_elem
-                    sheet01.cell(lastrow+a, n_now+2).value =market_elem
-                    sheet01.cell(lastrow+a, n_now+3).value =price_elem
-                    sheet01.cell(lastrow+a, n_now+4).value =up_elem
-                    sheet01.cell(lastrow+a, n_now+5).value =upper_elem
-                    sheet01.cell(lastrow+a, n_now+6).value =amount
-                    a += 1
-                    time.sleep(1)
+            if flag == False and code_before is not None:
+                print(code_before+'は直前に取得した銘柄と一致しませんでした。')
+                kabutan_URL_base = 'http://kabutan.jp/stock/?code='
+                kabutan_URL = kabutan_URL_base + str(code_before)
+                res = requests.get(kabutan_URL)
+                res.raise_for_status()
+                soup = bs4.BeautifulSoup(res.text, 'html.parser')
+                name_elem = soup.select('span')[8].text
+
+                market_elem = soup.select('span')[11].text
+
+                price_elem = soup.select('td')[32].text
+                up_elem = soup.select('span')[14].text
+                upper_elem = soup.select('span')[15].text
+                amount = soup.select('td')[35].text
+                #取得したデータをexcelに書き込む。
+
+                sheet01.cell(lastrow, n_now).value = code_before
+                sheet01.cell(lastrow, n_now+1).value = name_elem
+                sheet01.cell(lastrow, n_now+2).value =market_elem
+                sheet01.cell(lastrow, n_now+3).value =price_elem
+                sheet01.cell(lastrow, n_now+4).value =up_elem
+                sheet01.cell(lastrow, n_now+5).value =upper_elem
+                sheet01.cell(lastrow, n_now+6).value =amount
+                
+                time.sleep(1)
     print(n)
-    time.sleep(300)
+    time.sleep(10)
 wb.save(dir+d+"_値上がりランキング-前場.xlsx")
 
 
