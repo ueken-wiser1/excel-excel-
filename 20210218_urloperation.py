@@ -14,7 +14,7 @@ import datetime
 import winsound
 
 
-taisho_URL= 'http://kabutan.jp/stock/?code=1301'
+taisho_URL= 'http://kabutan.jp/stock/kabuka/?code=1301'
 
 res = requests.get(taisho_URL)
 #print(taisho_URL)

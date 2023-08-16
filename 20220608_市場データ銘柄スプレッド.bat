@@ -1,6 +1,6 @@
 python C:\Users\touko\program\github\excel-excel-\excel-excel-/20230412_銘柄スプレッド.py
 python C:\Users\touko\program\github\excel-excel-\excel-excel-/20230522_フォルダ内ファイルの最終行がnoneであれば削除する.py
-python C:\Users\touko\program\github\excel-excel-\excel-excel-/20230522_日次データ計算.py
+python C:\Users\touko\program\github\excel-excel-\excel-excel-/20230815_日次データ計算.py
 python C:\Users\touko\program\github\excel-excel-\excel-excel-/20221026_日付データ回帰.py
 python C:\Users\touko\program\github\excel-excel-\excel-excel-/20230115_5日線超えた銘柄リスト.py
 python C:\Users\touko\program\github\excel-excel-\excel-excel-/20230120_5日線下回った銘柄リスト.py
