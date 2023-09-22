@@ -94,7 +94,7 @@ for l in file_list:
             pass
         else:
             if sheetdaily.cell(i,199).value is not None and sheetdaily.cell(i,200).value is not None and sheetdaily.cell(i,201).value is not None:
-                if sheetdaily.cell(i,234).value == 1:
+                if sheetdaily.cell(i,237).value == 1:
                     sheetsim.cell(k,2).value = sheetdaily.cell(i,1).value #日付
                     sheetsim.cell(k,4).value = sheetdaily.cell(i,2).value #証券コード
                     sheetsim.cell(k,5).value = sheetdaily.cell(i,3).value #会社名
@@ -148,8 +148,7 @@ for l in file_list:
                 pass
 
     sheetsim.cell(row=1,column=32).value = basis_date2
-    wb_sim.save(dirstorage+daycode_format+'_'+'OSCI.xlsx')
-    wb_sim.save(dirstorage02+daycode_format+'_'+'buy.xlsx')
+    wb_sim.save(dirstorage02+daycode_format+'_'+'waitsee.xlsx')
 #終了時間取得-経過時間
 print(t)
 t1 = datetime.datetime.now()

@@ -58,7 +58,7 @@ for l in stock_list:
         lastcolumn_stockbook = sheetstock.max_column
         print("最終行は"+str(lastrow_stockbook))
         #列名命名
-        
+        '''
         sheetstock.cell(1,1).value ='日付'
         sheetstock.cell(1,2).value ='コード'
         sheetstock.cell(1,3).value ='会社名'
@@ -260,7 +260,7 @@ for l in stock_list:
         sheetstock.cell(1,601).value ='テーマ'
         sheetstock.cell(1,999).value ='getnewsinfoを実施したか'
         sheetstock.cell(1,1000).value ='売り時/買い時スコア'
-        
+        '''
 
         if sheetstock.cell(2,5).value is None or sheetstock.cell(2,5).value == '－':
                 sheetstock.cell(2,5).value = 0
@@ -500,6 +500,34 @@ for l in stock_list:
                                 sheetstock.cell(j,231).value=1
                         elif sheetstock.cell(j,11).value-sheetstock.cell(j,230).value<=0 and sheetstock.cell(j-2,11).value-sheetstock.cell(j-2,230).value>0:
                                 sheetstock.cell(j,231).value=4
+                        else:
+                                pass
+
+                if lastrow_stockbook > 7:
+                        if sheetstock.cell(j,15).value-sheetstock.cell(j-5,15).value>0:
+                                sheetstock.cell(j,232).value=1
+                        elif sheetstock.cell(j,15).value-sheetstock.cell(j-5,15).value<=0:
+                                sheetstock.cell(j,232).value=4
+                        else:
+                                pass
+                
+                if lastrow_stockbook > 22:
+                        if sheetstock.cell(j,15).value-sheetstock.cell(j-20,15).value>0:
+                                sheetstock.cell(j,233).value=1
+                        elif sheetstock.cell(j,15).value-sheetstock.cell(j-20,15).value<=0:
+                                sheetstock.cell(j,233).value=4
+                        else:
+                                pass
+                
+                if lastrow_stockbook > 22:
+                        if sheetstock.cell(j,232).value == 1 and sheetstock.cell(j,233).value == 4:
+                                sheetstock.cell(j,234).value=1
+                        elif sheetstock.cell(j,232).value == 4 and sheetstock.cell(j,233).value == 1:
+                                sheetstock.cell(j,235).value=1
+                        elif sheetstock.cell(j,232).value == 1 and sheetstock.cell(j,233).value == 1:
+                                sheetstock.cell(j,236).value=1
+                        elif sheetstock.cell(j,232).value == 4 and sheetstock.cell(j,233).value == 4:
+                                sheetstock.cell(j,237).value=1
                         else:
                                 pass
 
