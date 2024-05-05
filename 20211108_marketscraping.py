@@ -1,13 +1,12 @@
-import os
+
 import openpyxl
 import requests
 import bs4
 import time
 import datetime
-import sys
-import sys
-from selenium import webdriver
-from selenium.webdriver.common.keys import Keys as keys
+
+
+
 import winsound
 
 #------------お約束開始---冒頭
@@ -36,7 +35,7 @@ t = datetime.datetime.now().time()
 
 
 for j in range(2, sheet.max_row + 1):
-    time.sleep(0.1)
+    time.sleep(0.3)
     kabutan_URL_base = 'http://kabutan.jp/stock/?code='
     kabutankessan_URL_base = 'http://kabutan.jp/stock/finance/?code='
     stock_code = sheet.cell(row=j, column=2).value
@@ -90,7 +89,7 @@ for j in range(2, sheet.max_row + 1):
 
 #           売買代金
     try:
-        dekidaka_yield = str(soup.select('td')[36].get_text())
+        dekidaka_yield = str(soup.select('td')[36])
     except IndexError as e:
         print('売買代金存在しない')
         write_column += 1
@@ -101,7 +100,7 @@ for j in range(2, sheet.max_row + 1):
 
 #           約定回数
     try:
-        number_of_contracts = str(soup.select('td')[38].get_text())
+        number_of_contracts = str(soup.select('td')[38])
     except IndexError as e:
         print('約定回数存在しない')
         write_column += 1
@@ -134,7 +133,7 @@ for j in range(2, sheet.max_row + 1):
 
 #           前日終値2
     try:
-        stock_price = str(soup.select('dd')[8].get_text())
+        stock_price = str(soup.select('dd')[8])
     except IndexError as e:
         print('前日終値存在しない')
         write_column += 2
@@ -145,7 +144,7 @@ for j in range(2, sheet.max_row + 1):
 
 #           出来高
     try:
-        dekidaka_yield = str(soup.select('td')[35].get_text())
+        dekidaka_yield = str(soup.select('td')[35])
     except IndexError as e:
         print('出来高存在しない')
         write_column += 1
@@ -200,7 +199,7 @@ for j in range(2, sheet.max_row + 1):
 
 #           前日比%
     try:
-        DoD = str(soup.select('span')[16].get_text())
+        DoD = str(soup.select('span')[16])
     except IndexError as e:
         print('前日比存在しない')
         write_column += 1
@@ -211,7 +210,7 @@ for j in range(2, sheet.max_row + 1):
 
 #           PER
     try:
-        kabu_PER = str(soup.select('td')[18].get_text())
+        kabu_PER = str(soup.select('td')[18])
     except IndexError as e:
         print('PER存在しない')
         write_column += 1
@@ -222,7 +221,7 @@ for j in range(2, sheet.max_row + 1):
 
 #           PBR
     try:
-        kabu_PBR = str(soup.select('td')[19].get_text())
+        kabu_PBR = str(soup.select('td')[19])
     except IndexError as e:
         print('PBR存在しない')
         write_column += 1
@@ -244,7 +243,7 @@ for j in range(2, sheet.max_row + 1):
 
 #           VWAP
     try:
-        VWAP = str(soup.select('td')[37].get_text())
+        VWAP = str(soup.select('td')[37])
     except IndexError as e:
         print('VWAP存在しない')
         write_column += 1
@@ -255,7 +254,7 @@ for j in range(2, sheet.max_row + 1):
 
 #           発行済み株式数
     try:
-        number_of_issued_shares = str(soup.select('td')[42].get_text())
+        number_of_issued_shares = str(soup.select('td')[42])
     except IndexError as e:
         print('発行済み株式数存在しない')
         write_column += 1
@@ -312,7 +311,7 @@ for j in range(2, sheet.max_row + 1):
     
 #           業界
     try:
-        market = str(soup.select('a')[28])
+        market = str(soup.select('a')[28].get_text())
     except IndexError as e:
         print('業界存在しない')
         write_column = 36

@@ -13,7 +13,6 @@ d1 = d.strftime('%Y%m%d')
 
 #対象フォルダ指定
 dirdaily = "C:/Users/touko/OneDrive/株価分析/excel/株式データ/"
-dirstorage02 = "C:/Users/touko/OneDrive/株価分析/excel/株式データ/取引タイミング/"
 dirstorage = "C:/Users/touko/OneDrive/株価分析/excel/株式データ/追跡調査/現在/1日目/"
 dividend_data ="C:/Users/touko/OneDrive/株価分析/excel/株式データ/test/20230508/20230508_配当カレンダー.xlsx"
 
@@ -94,7 +93,7 @@ for l in file_list:
             pass
         else:
             if sheetdaily.cell(i,199).value is not None and sheetdaily.cell(i,200).value is not None and sheetdaily.cell(i,201).value is not None:
-                if sheetdaily.cell(i,234).value == 1:
+                if sheetdaily.cell(i,229).value == 1 and sheetdaily.cell(i,231).value == 1:
                     sheetsim.cell(k,2).value = sheetdaily.cell(i,1).value #日付
                     sheetsim.cell(k,4).value = sheetdaily.cell(i,2).value #証券コード
                     sheetsim.cell(k,5).value = sheetdaily.cell(i,3).value #会社名
@@ -116,16 +115,8 @@ for l in file_list:
                                 sheetsim.cell(k,12).value = sheetdaily.cell(i,32).value/2 #配当金
                                 sheetsim.cell(k,13).value = sheetdividend.cell(j,3).value #配当月
                         elif str(sheetsim.cell(k,4).value) == str(sheetdividend.cell(j,1).value) and sheetdividend.cell(j,4).value is False:
-                            if sheetdaily.cell(i,32).value is not None and isinstance(sheetdaily.cell(i,32).value, str):
-                                sheetsim.cell(k,12).value = 0 #配当金
-                                continue
-                            elif sheetdaily.cell(i,32).value is None:
-                                sheetsim.cell(k,12).value = 0 #配当金
-                                continue
-                            else:
-                                sheetsim.cell(k,12).value = sheetdaily.cell(i,32).value #配当金
-                                sheetsim.cell(k,13).value = sheetdividend.cell(j,3).value #配当月
-
+                            sheetsim.cell(k,12).value = sheetdaily.cell(i,32).value #配当金
+                            sheetsim.cell(k,13).value = sheetdividend.cell(j,3).value #配当月
 
                     sheetsim.cell(k,14).value = sheetdaily.cell(i,23).value #買残
                     sheetsim.cell(k,15).value = sheetdaily.cell(i,22).value #売残
@@ -149,7 +140,6 @@ for l in file_list:
 
     sheetsim.cell(row=1,column=32).value = basis_date2
     wb_sim.save(dirstorage+daycode_format+'_'+'OSCI.xlsx')
-    wb_sim.save(dirstorage02+daycode_format+'_'+'buy.xlsx')
 #終了時間取得-経過時間
 print(t)
 t1 = datetime.datetime.now()

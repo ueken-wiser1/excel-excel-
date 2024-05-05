@@ -4,7 +4,6 @@ import requests
 import bs4
 import time
 import datetime
-import win32com.client
 import re
 import winsound
 

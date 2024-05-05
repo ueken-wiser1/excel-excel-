@@ -52,6 +52,10 @@ stockbook = openpyxl.load_workbook(today_file[0])
 sheet01 = stockbook.worksheets[0]
 lastrow_stockbook =sheet01.max_row
 for i in range(2,lastrow_stockbook+1):
+    if sheet01.cell(row=i,column=2).value is None:
+        print("証券コードがnoneのため、スキップ")
+        continue
+    
     if sheet01.cell(row=i,column=999).value == 1:
         print(lastrow_stockbook,sheet01.cell(row=i,column=1).value,"passします")
         continue

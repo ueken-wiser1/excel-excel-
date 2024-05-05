@@ -114,6 +114,7 @@ for l in stock_list:
         diffarray=[] #macdスコア計算用
         diffarray_max=[]
         diffarray_min=[]
+        macd_diff=[]
 
 
 
@@ -256,7 +257,12 @@ for l in stock_list:
                                                                 sheetstock.cell(row=j,column=304).value = stockprice_20dmovestd[j-2]
                                                                 sheetstock.cell(row=j,column=305).value = stockprice_20dmovemean[j-2]+2*stockprice_20dmovestd[j-2]
                                                                 sheetstock.cell(row=j,column=306).value = stockprice_20dmovemean[j-2]-2*stockprice_20dmovestd[j-2]
-                                                                sheetstock.cell(j,325).value = ((sheetstock.cell(j,305).value-sheetstock.cell(j,4).value)/(sheetstock.cell(j,305).value-sheetstock.cell(j,306).value))*100
+                                                                if sheetstock.cell(j,305).value-sheetstock.cell(j,4).value<0:
+                                                                        sheetstock.cell(j,325).value = 0
+                                                                elif sheetstock.cell(j,306).value-sheetstock.cell(j,4).value>0:
+                                                                        sheetstock.cell(j,325).value = 100
+                                                                else:
+                                                                    sheetstock.cell(j,325).value = ((sheetstock.cell(j,305).value-sheetstock.cell(j,4).value)/(sheetstock.cell(j,305).value-sheetstock.cell(j,306).value))*100
                                                                 if sheetstock.cell(j,4).value - stockprice_20dmovemean[j-2] > 0:
                                                                         sheetstock.cell(row=j,column=307).value = "上側"
                                                                 else:
@@ -266,7 +272,7 @@ for l in stock_list:
                                                                         sheetstock.cell(row=j,column=200).value = stockprice_25dmovemean[j-2]
                                                                         if lastrow_stockbook > 28:
                                                                                 sheetstock.cell(row=j,column=318).value = stockprice_26dEmovemean[j-2] + (2/27)*(sheetstock.cell(j,4).value - stockprice_26dEmovemean[j-2])
-                                                                                sheetstock.cell(row=j,column=319).value = sheetstock.cell(row=j,column=317).value - sheetstock.cell(row=j,column=318).value
+                                                                                sheetstock.cell(row=j,column=319).value = sheetstock.cell(row=j,column=317).value - sheetstock.cell(row=j,column=318).value#macd
                                                                                 if lastrow_stockbook > 32:
                                                                                         sheetstock.cell(row=j,column=208).value = stockprice_30dmovemean[j-2]
                                                                                         if lastrow_stockbook > 67:
@@ -278,17 +284,17 @@ for l in stock_list:
                                                                                         
 
                 if lastrow_stockbook > 7:
-                        if sheetstock.cell(j,15).value-sheetstock.cell(j,199).value>0 and sheetstock.cell(j-1,15).value-sheetstock.cell(j-1,199).value<=0:
+                        if sheetstock.cell(j,15).value-sheetstock.cell(j,199).value>0 and sheetstock.cell(j-2,15).value-sheetstock.cell(j-2,199).value<=0:
                                 sheetstock.cell(j,229).value=1
-                        elif sheetstock.cell(j,15).value-sheetstock.cell(j,199).value<=0 and sheetstock.cell(j-1,15).value-sheetstock.cell(j-1,199).value>0:
+                        elif sheetstock.cell(j,15).value-sheetstock.cell(j,199).value<=0 and sheetstock.cell(j-2,15).value-sheetstock.cell(j-2,199).value>0:
                                 sheetstock.cell(j,229).value=4
                         else:
                                 pass
 
                 if lastrow_stockbook > 7:
-                        if sheetstock.cell(j,11).value-sheetstock.cell(j,230).value>0 and sheetstock.cell(j-1,11).value-sheetstock.cell(j-1,230).value<=0:
+                        if sheetstock.cell(j,11).value-sheetstock.cell(j,230).value>0 and sheetstock.cell(j-2,11).value-sheetstock.cell(j-2,230).value<=0:
                                 sheetstock.cell(j,231).value=1
-                        elif sheetstock.cell(j,11).value-sheetstock.cell(j,230).value<=0 and sheetstock.cell(j-1,11).value-sheetstock.cell(j-1,230).value>0:
+                        elif sheetstock.cell(j,11).value-sheetstock.cell(j,230).value<=0 and sheetstock.cell(j-2,11).value-sheetstock.cell(j-2,230).value>0:
                                 sheetstock.cell(j,231).value=4
                         else:
                                 pass
@@ -354,20 +360,40 @@ for l in stock_list:
                 if k > 11:
                         if sheetstock.cell(k,319).value is not None:
                                 stockprice_9dEmovemean = bn.move_mean(macdscore, window=9)
-                                sheetstock.cell(row=k,column=320).value = stockprice_9dEmovemean[k-2]
+                                sheetstock.cell(row=k,column=320).value = stockprice_9dEmovemean[k-2]#macd_signal
                                 sheetstock.cell(k,323).value = sheetstock.cell(k,319).value-sheetstock.cell(k,320).value
                                 diffarray = np.append(macdscore, sheetstock.cell(row=k, column=323).value) #macdの配列格納
                                 diffarray_max = bn.move_max(macdscore, window=9)
                                 diffarray_min = bn.move_min(macdscore, window=9)
-                                macd = sheetstock.cell(k,323).value
-                                if macd >= 0:
-                                        sheetstock.cell(k,326).value = (1-(sheetstock.cell(k,323).value-diffarray_min[k-2])/(diffarray_max[k-2]-diffarray_min[k-2]))*100
-                                else:
-                                        sheetstock.cell(k,326).value =((sheetstock.cell(k,323).value-diffarray_min[k-2])/(diffarray_max[k-2]-diffarray_min[k-2]))*100
-                
+                                macd = sheetstock.cell(k,319).value
+                                macd_signal = sheetstock.cell(k,320).value
+                                diff = macd - macd_signal
+                                #print(diff)
+                                macd_diff = np.append(macd_diff, diff)
+
+                                macd_diff_abs_max = np.nanmax(macd_diff)
+                                #print(macd_diff_abs_max)
+                                sheetstock.cell(k,326).value =50+(diff/macd_diff_abs_max)*50
+
+#MACDの計算2023/5/21段階
+#macd = sheetstock.cell(k,323).valueの正負によって、スコアの計算を変えている。
+#macd>=0で
+#sheetstock.cell(k,326).value = (1-(sheetstock.cell(k,323).value-diffarray_min[k-2])/(diffarray_max[k-2]-diffarray_min[k-2]))*100
+#macd<0で
+#sheetstock.cell(k,326).value =((sheetstock.cell(k,323).value-diffarray_min[k-2])/(diffarray_max[k-2]-diffarray_min[k-2]))*100
+#sheetstock.cell(k,323).valueとは
+#sheetstock.cell(k,319).value-sheetstock.cell(k,320).value
+#sheetstock.cell(k,319).valueとは
+#sheetstock.cell(row=j,column=317).value - sheetstock.cell(row=j,column=318).value
+#sheetstock.cell(row=j,column=317).valueとは
+#stockprice_12dEmovemean[j-2] + (2/13)*(sheetstock.cell(j,4).value - stockprice_12dEmovemean[j-2])
+#sheetstock.cell(row=j,column=318).valueとは
+#stockprice_26dEmovemean[j-2] + (2/27)*(sheetstock.cell(j,4).value - stockprice_26dEmovemean[j-2])
+#sheetstock.cell(k,320).valueとは
+#stockprice_9dEmovemean[k-2]
         for m in range(2,lastrow_stockbook):
                 if sheetstock.cell(m,324).value is not None and sheetstock.cell(m,325).value is not None and sheetstock.cell(m,326).value is not None:
-                        sheetstock.cell(m, 327).value = 0.59*sheetstock.cell(m,324).value + 0.16*sheetstock.cell(m,325).value + 0.25*sheetstock.cell(m,326).value
+                        sheetstock.cell(m, 327).value = -0.126*sheetstock.cell(m,324).value + 0.486*sheetstock.cell(m,325).value + 0.846*sheetstock.cell(m,326).value
 
         #シグナルラインの計算
         #print(stockprice_25dmovemean[9])

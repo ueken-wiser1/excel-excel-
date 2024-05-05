@@ -8,7 +8,6 @@
 #4. 不使用証券コードと銘柄データのあるフォルダ内のファイル名を比較し、同じモノがあればそのファイルを削除する
 import os
 import openpyxl
-import xlrd
 import time
 import sys
 import winsound
@@ -41,7 +40,7 @@ for l in filelist01:
         cell01 = sheet01.cell(row=i,column=1).value
         if cell01 is None:
             sheet01.delete_rows(i)
-        elif cell01 > datetime.datetime(2021,11,1):
+        elif cell01 == datetime.datetime(2023,7,10):
             sheet01.delete_rows(i)
         else:
             pass

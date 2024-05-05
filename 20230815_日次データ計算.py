@@ -57,6 +57,211 @@ for l in stock_list:
         lastrow_stockbook = sheetstock.max_row+1
         lastcolumn_stockbook = sheetstock.max_column
         print("最終行は"+str(lastrow_stockbook))
+        #列名命名
+        '''
+        sheetstock.cell(1,1).value ='日付'
+        sheetstock.cell(1,2).value ='コード'
+        sheetstock.cell(1,3).value ='会社名'
+        sheetstock.cell(1,4).value ='株価'
+        sheetstock.cell(1,5).value ='前日比'
+        sheetstock.cell(1,6).value ='値幅'
+        sheetstock.cell(1,7).value ='売買代金'
+        sheetstock.cell(1,8).value ='約定回数'
+        sheetstock.cell(1,9).value ='決算日'
+        sheetstock.cell(1,10).value ='前日終値'
+        sheetstock.cell(1,11).value ='出来高'
+        sheetstock.cell(1,12).value ='始値'
+        sheetstock.cell(1,13).value ='高値'
+        sheetstock.cell(1,14).value ='安値'
+        sheetstock.cell(1,15).value ='終値'
+        sheetstock.cell(1,16).value ='前日比%'
+        sheetstock.cell(1,17).value ='PER'
+        sheetstock.cell(1,18).value ='PBR'
+        sheetstock.cell(1,19).value ='上場市場'
+        sheetstock.cell(1,20).value ='VWAP'
+        sheetstock.cell(1,21).value ='発行済み株式数'
+        sheetstock.cell(1,22).value ='最新信用売残'
+        sheetstock.cell(1,23).value ='最新信用買残'
+        sheetstock.cell(1,24).value ='信用倍率'
+        sheetstock.cell(1,25).value ='売買代金2'
+        sheetstock.cell(1,26).value ='信用売残前週比'
+        sheetstock.cell(1,27).value ='信用買残前週比'
+        sheetstock.cell(1,28).value ='出来高前日比'
+        sheetstock.cell(1,29).value ='約定回数前日比'
+        sheetstock.cell(1,30).value ='時価総額'
+        sheetstock.cell(1,31).value ='浮動株総額'
+        sheetstock.cell(1,32).value ='一株配当'
+        sheetstock.cell(1,33).value ='平均約定金額'
+        sheetstock.cell(1,34).value ='業界'
+        sheetstock.cell(1,35).value ='時価総額2'
+        sheetstock.cell(1,36).value ='ギャップアップフラグ'
+        sheetstock.cell(1,37).value ='ギャップダウンフラグ'
+        sheetstock.cell(1,38).value ='出来高急増フラグ'
+        sheetstock.cell(1,51).value ='当日IR有無'
+        sheetstock.cell(1,52).value ='決算IRフラグ有無'
+        sheetstock.cell(1,53).value ='決算修正IRフラグ有無'
+        sheetstock.cell(1,54).value ='当日テクニカルフラグ有無'
+        sheetstock.cell(1,55).value ='当日5%フラグ有無'
+        sheetstock.cell(1,56).value ='翌日用当日IR有無'
+        sheetstock.cell(1,57).value ='翌日用決算IRフラグ有無'
+        sheetstock.cell(1,58).value ='翌日用決算修正IRフラグ有無'
+        sheetstock.cell(1,59).value ='翌日用当日テクニカルフラグ有無'
+        sheetstock.cell(1,60).value ='翌日用当日5%フラグ有無'
+        sheetstock.cell(1,61).value ='利回り'
+        sheetstock.cell(1,62).value ='売上高'
+        sheetstock.cell(1,63).value ='営業益'
+        sheetstock.cell(1,64).value ='経常益'
+        sheetstock.cell(1,65).value ='最終益'
+        sheetstock.cell(1,66).value ='売上営業利益率'
+        sheetstock.cell(1,67).value ='ROE'
+        sheetstock.cell(1,68).value ='ROA'
+        sheetstock.cell(1,69).value ='総資産回転率'
+        sheetstock.cell(1,70).value ='フリーキャッシュフロー'
+        sheetstock.cell(1,71).value ='営業キャッシュフロー'
+        sheetstock.cell(1,72).value ='投資キャッシュフロー'
+        sheetstock.cell(1,73).value ='財務キャッシュフロー'
+        sheetstock.cell(1,74).value ='現金'
+        sheetstock.cell(1,75).value ='一株益'
+        sheetstock.cell(1,101).value ='信用取引規制中'
+        sheetstock.cell(1,102).value ='貸借取引銘柄別増担保金徴収措置'
+        sheetstock.cell(1,103).value ='貸借取引銘柄別増担保金徴収措置_措置内容'
+        sheetstock.cell(1,106).value ='空売り規制対象'
+        sheetstock.cell(1,111).value ='融資新規'
+        sheetstock.cell(1,112).value ='融資返済'
+        sheetstock.cell(1,113).value ='融資残高'
+        sheetstock.cell(1,114).value ='貸株新規'
+        sheetstock.cell(1,115).value ='貸株返済'
+        sheetstock.cell(1,116).value ='貸株残高'
+        sheetstock.cell(1,117).value ='差引残高'
+        sheetstock.cell(1,118).value ='回転日数'
+        sheetstock.cell(1,121).value ='貸株超過株数'
+        sheetstock.cell(1,122).value ='最高料率'
+        sheetstock.cell(1,123).value ='当日品貸料率'
+        sheetstock.cell(1,124).value ='前日品貸料率'
+        sheetstock.cell(1,151).value ='みんかぶ目標株価'
+        sheetstock.cell(1,152).value ='現在株価との差'
+        sheetstock.cell(1,199).value ='移動平均線数値5日'
+        sheetstock.cell(1,200).value ='移動平均線数値25日'
+        sheetstock.cell(1,201).value ='移動平均線数値75日'
+        sheetstock.cell(1,202).value ='移動平均乖離率5日'
+        sheetstock.cell(1,203).value ='移動平均乖離率25日'
+        sheetstock.cell(1,204).value ='移動平均乖離率75日'
+        sheetstock.cell(1,205).value ='移動平均線数値10日'
+        sheetstock.cell(1,206).value ='移動平均線数値15日'
+        sheetstock.cell(1,207).value ='移動平均線数値20日'
+        sheetstock.cell(1,208).value ='移動平均線数値30日'
+        sheetstock.cell(1,209).value ='移動平均線数値65日'
+        sheetstock.cell(1,210).value ='移動平均線数値130日'
+        sheetstock.cell(1,211).value ='移動平均線数値10日出来高'
+        sheetstock.cell(1,212).value ='移動標準偏差+1σ25日'
+        sheetstock.cell(1,213).value ='移動標準偏差-1σ25日'
+        sheetstock.cell(1,214).value ='移動標準偏差+2σ25日'
+        sheetstock.cell(1,215).value ='移動標準偏差-2σ25日'
+        sheetstock.cell(1,216).value ='移動標準偏差+3σ25日'
+        sheetstock.cell(1,217).value ='移動標準偏差-3σ25日'
+        sheetstock.cell(1,218).value ='移動標準偏差+1σ65日'
+        sheetstock.cell(1,219).value ='移動標準偏差-1σ65日'
+        sheetstock.cell(1,220).value ='移動標準偏差+2σ65日'
+        sheetstock.cell(1,221).value ='移動標準偏差-2σ65日'
+        sheetstock.cell(1,222).value ='移動標準偏差+3σ65日'
+        sheetstock.cell(1,223).value ='移動標準偏差-3σ65日'
+        sheetstock.cell(1,224).value ='25日ボリンジャーバンドでの株価位置'
+        sheetstock.cell(1,225).value ='13週ボリンジャーバンドでの株価位置'
+        sheetstock.cell(1,226).value =''
+        sheetstock.cell(1,227).value ='上影/下影/大/小'
+        sheetstock.cell(1,228).value ='陽線/陰線/十字線'
+        sheetstock.cell(1,229).value ='プラス超え/マイナス越え株価5日線超え'
+        sheetstock.cell(1,230).value ='移動平均線数値5日出来高'
+        sheetstock.cell(1,231).value ='プラス超え/マイナス越え出来高5日線超え'
+        sheetstock.cell(1,251).value ='平均出来高'
+        sheetstock.cell(1,252).value ='平均約定回数'
+        sheetstock.cell(1,253).value ='平均回転日数'
+        sheetstock.cell(1,254).value ='平均移動平均乖離率5日'
+        sheetstock.cell(1,255).value ='平均移動平均乖離率25日'
+        sheetstock.cell(1,256).value ='平均移動平均乖離率75日'
+        sheetstock.cell(1,257).value ='平均信用買残'
+        sheetstock.cell(1,258).value ='平均融資新規'
+        sheetstock.cell(1,259).value ='平均融資返済'
+        sheetstock.cell(1,260).value ='平均信用売残'
+        sheetstock.cell(1,261).value ='平均貸株新規'
+        sheetstock.cell(1,262).value ='平均貸株返済'
+        sheetstock.cell(1,263).value ='平均貸株超過'
+        sheetstock.cell(1,264).value ='平均出来高変化率'
+        sheetstock.cell(1,265).value ='平均約定回数変化率'
+        sheetstock.cell(1,266).value ='平均信用買残変化率'
+        sheetstock.cell(1,267).value ='平均信用売残変化率'
+        sheetstock.cell(1,268).value ='平均平均約定金額'
+        sheetstock.cell(1,269).value ='標準偏差出来高'
+        sheetstock.cell(1,270).value ='標準偏差約定回数'
+        sheetstock.cell(1,271).value ='標準偏差回転日数'
+        sheetstock.cell(1,272).value ='標準偏差移動平均乖離率5日'
+        sheetstock.cell(1,273).value ='標準偏差移動平均乖離率25日'
+        sheetstock.cell(1,274).value ='標準偏差移動平均乖離率75日'
+        sheetstock.cell(1,275).value ='標準偏差信用買残'
+        sheetstock.cell(1,276).value ='標準偏差融資新規'
+        sheetstock.cell(1,277).value ='標準偏差融資返済'
+        sheetstock.cell(1,278).value ='標準偏差信用売残'
+        sheetstock.cell(1,279).value ='標準偏差貸株新規'
+        sheetstock.cell(1,280).value ='標準偏差貸株返済'
+        sheetstock.cell(1,281).value ='標準偏差貸株超過'
+        sheetstock.cell(1,282).value ='標準偏差出来高変化率'
+        sheetstock.cell(1,283).value ='標準偏差約定回数変化率'
+        sheetstock.cell(1,284).value ='標準偏差信用買残変化率'
+        sheetstock.cell(1,285).value ='標準偏差信用売残変化率'
+        sheetstock.cell(1,286).value ='標準偏差平均約定金額'
+        sheetstock.cell(1,301).value ='20日間の移動平均'
+        sheetstock.cell(1,302).value ='終値と20日移動平均の差に二乗'
+        sheetstock.cell(1,303).value ='20日間の分散'
+        sheetstock.cell(1,304).value ='20日間の標準偏差'
+        sheetstock.cell(1,305).value ='上限線'
+        sheetstock.cell(1,306).value ='下限線'
+        sheetstock.cell(1,307).value ='終値との比較-中間値に対してどちらよりか'
+        sheetstock.cell(1,308).value =''
+        sheetstock.cell(1,309).value ='前日比'
+        sheetstock.cell(1,310).value ='上昇分'
+        sheetstock.cell(1,311).value ='下落分'
+        sheetstock.cell(1,312).value ='14日間の上昇分の平均'
+        sheetstock.cell(1,313).value ='14日間の下落分の平均'
+        sheetstock.cell(1,314).value ='相対力'
+        sheetstock.cell(1,315).value ='RSI'
+        sheetstock.cell(1,316).value ='RSI評価-買われすぎか売られすぎか'
+        sheetstock.cell(1,317).value ='12日間の指数平滑移動平均'
+        sheetstock.cell(1,318).value ='26日間の指数平滑移動平均'
+        sheetstock.cell(1,319).value ='MACD'
+        sheetstock.cell(1,320).value ='9日間の指数平滑移動平均'
+        sheetstock.cell(1,321).value ='12日間の指数平滑移動平均と26日間の指数平滑移動平均の中間値'
+        sheetstock.cell(1,322).value ='9日間の指数平滑移動平均と中間値の比較'
+        sheetstock.cell(1,323).value ='MACDラインとシグナルラインの差分'
+        sheetstock.cell(1,324).value ='RSIスコア'
+        sheetstock.cell(1,325).value ='ボリンジャーバンドスコア'
+        sheetstock.cell(1,326).value ='MACDスコア'
+        sheetstock.cell(1,327).value ='合計点'
+        sheetstock.cell(1,328).value ='仮スコア'
+        sheetstock.cell(1,401).value ='業種'
+        sheetstock.cell(1,402).value ='会社説明'
+        sheetstock.cell(1,501).value ='標準化出来高'
+        sheetstock.cell(1,502).value ='標準化約定回数'
+        sheetstock.cell(1,503).value ='標準化回転日数'
+        sheetstock.cell(1,504).value ='標準化移動平均乖離率5日'
+        sheetstock.cell(1,505).value ='標準化移動平均乖離率25日'
+        sheetstock.cell(1,506).value ='標準化移動平均乖離率75日'
+        sheetstock.cell(1,507).value ='標準化信用買残'
+        sheetstock.cell(1,508).value ='標準化融資新規'
+        sheetstock.cell(1,509).value ='標準化融資返済'
+        sheetstock.cell(1,510).value ='標準化信用売残'
+        sheetstock.cell(1,511).value ='標準化貸株新規'
+        sheetstock.cell(1,512).value ='標準化貸株返済'
+        sheetstock.cell(1,513).value ='標準化貸株超過'
+        sheetstock.cell(1,514).value ='標準化出来高変化率'
+        sheetstock.cell(1,515).value ='標準化約定回数変化率'
+        sheetstock.cell(1,516).value ='標準化信用買残変化率'
+        sheetstock.cell(1,517).value ='標準化信用売残変化率'
+        sheetstock.cell(1,518).value ='標準化平均約定金額'
+        sheetstock.cell(1,601).value ='テーマ'
+        sheetstock.cell(1,999).value ='getnewsinfoを実施したか'
+        sheetstock.cell(1,1000).value ='売り時/買い時スコア'
+        '''
+
         if sheetstock.cell(2,5).value is None or sheetstock.cell(2,5).value == '－':
                 sheetstock.cell(2,5).value = 0
                 print(sheetstock.cell(2,2).value + '_' + sheetstock.cell(2,3).value +'前日比の値がなかったので処理')
@@ -114,6 +319,7 @@ for l in stock_list:
         diffarray=[] #macdスコア計算用
         diffarray_max=[]
         diffarray_min=[]
+        macd_diff=[]
 
 
 
@@ -228,7 +434,6 @@ for l in stock_list:
                 if lastrow_stockbook > 7:
                         sheetstock.cell(row=j,column=199).value = stockprice_5dmovemean[j-2]
                         sheetstock.cell(row=j,column=230).value = turnover_5dmovemean[j-2]
-
                         if lastrow_stockbook > 12:
                                 sheetstock.cell(row=j,column=205).value = stockprice_10dmovemean[j-2]
                                 sheetstock.cell(row=j,column=211).value = turnover_10dmovemean[j-2]
@@ -256,7 +461,12 @@ for l in stock_list:
                                                                 sheetstock.cell(row=j,column=304).value = stockprice_20dmovestd[j-2]
                                                                 sheetstock.cell(row=j,column=305).value = stockprice_20dmovemean[j-2]+2*stockprice_20dmovestd[j-2]
                                                                 sheetstock.cell(row=j,column=306).value = stockprice_20dmovemean[j-2]-2*stockprice_20dmovestd[j-2]
-                                                                sheetstock.cell(j,325).value = ((sheetstock.cell(j,305).value-sheetstock.cell(j,4).value)/(sheetstock.cell(j,305).value-sheetstock.cell(j,306).value))*100
+                                                                if sheetstock.cell(j,305).value-sheetstock.cell(j,4).value<0:
+                                                                        sheetstock.cell(j,325).value = 0
+                                                                elif sheetstock.cell(j,306).value-sheetstock.cell(j,4).value>0:
+                                                                        sheetstock.cell(j,325).value = 100
+                                                                else:
+                                                                    sheetstock.cell(j,325).value = ((sheetstock.cell(j,305).value-sheetstock.cell(j,4).value)/(sheetstock.cell(j,305).value-sheetstock.cell(j,306).value))*100
                                                                 if sheetstock.cell(j,4).value - stockprice_20dmovemean[j-2] > 0:
                                                                         sheetstock.cell(row=j,column=307).value = "上側"
                                                                 else:
@@ -266,7 +476,7 @@ for l in stock_list:
                                                                         sheetstock.cell(row=j,column=200).value = stockprice_25dmovemean[j-2]
                                                                         if lastrow_stockbook > 28:
                                                                                 sheetstock.cell(row=j,column=318).value = stockprice_26dEmovemean[j-2] + (2/27)*(sheetstock.cell(j,4).value - stockprice_26dEmovemean[j-2])
-                                                                                sheetstock.cell(row=j,column=319).value = sheetstock.cell(row=j,column=317).value - sheetstock.cell(row=j,column=318).value
+                                                                                sheetstock.cell(row=j,column=319).value = sheetstock.cell(row=j,column=317).value - sheetstock.cell(row=j,column=318).value#macd
                                                                                 if lastrow_stockbook > 32:
                                                                                         sheetstock.cell(row=j,column=208).value = stockprice_30dmovemean[j-2]
                                                                                         if lastrow_stockbook > 67:
@@ -278,18 +488,46 @@ for l in stock_list:
                                                                                         
 
                 if lastrow_stockbook > 7:
-                        if sheetstock.cell(j,15).value-sheetstock.cell(j,199).value>0 and sheetstock.cell(j-1,15).value-sheetstock.cell(j-1,199).value<=0:
+                        if sheetstock.cell(j,15).value-sheetstock.cell(j,199).value>0 and sheetstock.cell(j-2,15).value-sheetstock.cell(j-2,199).value<=0:
                                 sheetstock.cell(j,229).value=1
-                        elif sheetstock.cell(j,15).value-sheetstock.cell(j,199).value<=0 and sheetstock.cell(j-1,15).value-sheetstock.cell(j-1,199).value>0:
+                        elif sheetstock.cell(j,15).value-sheetstock.cell(j,199).value<=0 and sheetstock.cell(j-2,15).value-sheetstock.cell(j-2,199).value>0:
                                 sheetstock.cell(j,229).value=4
                         else:
                                 pass
 
                 if lastrow_stockbook > 7:
-                        if sheetstock.cell(j,11).value-sheetstock.cell(j,230).value>0 and sheetstock.cell(j-1,11).value-sheetstock.cell(j-1,230).value<=0:
+                        if sheetstock.cell(j,11).value-sheetstock.cell(j,230).value>0 and sheetstock.cell(j-2,11).value-sheetstock.cell(j-2,230).value<=0:
                                 sheetstock.cell(j,231).value=1
-                        elif sheetstock.cell(j,11).value-sheetstock.cell(j,230).value<=0 and sheetstock.cell(j-1,11).value-sheetstock.cell(j-1,230).value>0:
+                        elif sheetstock.cell(j,11).value-sheetstock.cell(j,230).value<=0 and sheetstock.cell(j-2,11).value-sheetstock.cell(j-2,230).value>0:
                                 sheetstock.cell(j,231).value=4
+                        else:
+                                pass
+
+                if lastrow_stockbook > 7:
+                        if sheetstock.cell(j,15).value-sheetstock.cell(j-5,15).value>0:
+                                sheetstock.cell(j,232).value=1
+                        elif sheetstock.cell(j,15).value-sheetstock.cell(j-5,15).value<=0:
+                                sheetstock.cell(j,232).value=4
+                        else:
+                                pass
+                
+                if lastrow_stockbook > 22:
+                        if sheetstock.cell(j,15).value-sheetstock.cell(j-20,15).value>0:
+                                sheetstock.cell(j,233).value=1
+                        elif sheetstock.cell(j,15).value-sheetstock.cell(j-20,15).value<=0:
+                                sheetstock.cell(j,233).value=4
+                        else:
+                                pass
+                
+                if lastrow_stockbook > 22:
+                        if sheetstock.cell(j,232).value == 1 and sheetstock.cell(j,233).value == 4:
+                                sheetstock.cell(j,234).value=1
+                        elif sheetstock.cell(j,232).value == 4 and sheetstock.cell(j,233).value == 1:
+                                sheetstock.cell(j,235).value=1
+                        elif sheetstock.cell(j,232).value == 1 and sheetstock.cell(j,233).value == 1:
+                                sheetstock.cell(j,236).value=1
+                        elif sheetstock.cell(j,232).value == 4 and sheetstock.cell(j,233).value == 4:
+                                sheetstock.cell(j,237).value=1
                         else:
                                 pass
 
@@ -354,21 +592,43 @@ for l in stock_list:
                 if k > 11:
                         if sheetstock.cell(k,319).value is not None:
                                 stockprice_9dEmovemean = bn.move_mean(macdscore, window=9)
-                                sheetstock.cell(row=k,column=320).value = stockprice_9dEmovemean[k-2]
+                                sheetstock.cell(row=k,column=320).value = stockprice_9dEmovemean[k-2]#macd_signal
                                 sheetstock.cell(k,323).value = sheetstock.cell(k,319).value-sheetstock.cell(k,320).value
                                 diffarray = np.append(macdscore, sheetstock.cell(row=k, column=323).value) #macdの配列格納
                                 diffarray_max = bn.move_max(macdscore, window=9)
                                 diffarray_min = bn.move_min(macdscore, window=9)
-                                macd = sheetstock.cell(k,323).value
-                                if macd >= 0:
-                                        sheetstock.cell(k,326).value = (1-(sheetstock.cell(k,323).value-diffarray_min[k-2])/(diffarray_max[k-2]-diffarray_min[k-2]))*100
-                                else:
-                                        sheetstock.cell(k,326).value =((sheetstock.cell(k,323).value-diffarray_min[k-2])/(diffarray_max[k-2]-diffarray_min[k-2]))*100
-                
+                                macd = sheetstock.cell(k,319).value
+                                macd_signal = sheetstock.cell(k,320).value
+                                diff = macd - macd_signal
+                                #print(diff)
+                                macd_diff = np.append(macd_diff, diff)
+
+                                macd_diff_abs_max = np.nanmax(macd_diff)
+                                #print(macd_diff_abs_max)
+                                sheetstock.cell(k,326).value =50+(diff/macd_diff_abs_max)*50
+
+#MACDの計算2023/5/21段階
+#macd = sheetstock.cell(k,323).valueの正負によって、スコアの計算を変えている。
+#macd>=0で
+#sheetstock.cell(k,326).value = (1-(sheetstock.cell(k,323).value-diffarray_min[k-2])/(diffarray_max[k-2]-diffarray_min[k-2]))*100
+#macd<0で
+#sheetstock.cell(k,326).value =((sheetstock.cell(k,323).value-diffarray_min[k-2])/(diffarray_max[k-2]-diffarray_min[k-2]))*100
+#sheetstock.cell(k,323).valueとは
+#sheetstock.cell(k,319).value-sheetstock.cell(k,320).value
+#sheetstock.cell(k,319).valueとは
+#sheetstock.cell(row=j,column=317).value - sheetstock.cell(row=j,column=318).value
+#sheetstock.cell(row=j,column=317).valueとは
+#stockprice_12dEmovemean[j-2] + (2/13)*(sheetstock.cell(j,4).value - stockprice_12dEmovemean[j-2])
+#sheetstock.cell(row=j,column=318).valueとは
+#stockprice_26dEmovemean[j-2] + (2/27)*(sheetstock.cell(j,4).value - stockprice_26dEmovemean[j-2])
+#sheetstock.cell(k,320).valueとは
+#stockprice_9dEmovemean[k-2]
         for m in range(2,lastrow_stockbook):
                 if sheetstock.cell(m,324).value is not None and sheetstock.cell(m,325).value is not None and sheetstock.cell(m,326).value is not None:
-                        sheetstock.cell(m, 327).value = 0.59*sheetstock.cell(m,324).value + 0.16*sheetstock.cell(m,325).value + 0.25*sheetstock.cell(m,326).value
+                        sheetstock.cell(m, 327).value = -0.126*sheetstock.cell(m,324).value + 0.486*sheetstock.cell(m,325).value + 0.846*sheetstock.cell(m,326).value
 
+        for n in range(2, lastrow_stockbook-10):
+                sheetstock.cell(n,328).value = (sheetstock.cell(n+10,4).value-sheetstock.cell(n,4).value)/sheetstock.cell(n,4).value*1000
         #シグナルラインの計算
         #print(stockprice_25dmovemean[9])
 
